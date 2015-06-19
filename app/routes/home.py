@@ -4,7 +4,7 @@
 # URL routes for apps
 
 from app import app, db
-from models import User
+from app.models import *
 from flask import render_template
 
 @app.route('/')
