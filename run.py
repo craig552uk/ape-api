@@ -16,6 +16,22 @@ Objects in scope:
   db              # The SQLAlchemy DB
 """
 
+## Helpful methods ##
+
+def db_seed():
+    """Rebuild the database populating it with seed data"""
+    db.drop_all()
+    db.create_all()
+    db.session.add(User(name="Craig"))
+    db.session.add(User(name="Vicky"))
+    db.session.add(User(name="Sophie"))
+    db.session.commit()
+
+
+def db_show():
+    """Display data in the DB"""
+    for user in User.query.all(): print user
+
 
 if __name__ == "__main__":
 
@@ -34,7 +50,7 @@ if __name__ == "__main__":
         os.environ['FLASK_APP_CONFIG'] = args.config_file
 
     # app import after config file definition
-    from app import app, db, db_seed, db_show
+    from app import app, db
     from app.routes import *
     from app.models import *
 

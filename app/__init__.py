@@ -7,7 +7,6 @@ import os
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
-
 # The flask app
 app = Flask(__name__)
 app.config.from_object('config_default')
@@ -28,20 +27,3 @@ if app.config.get('DEBUG') or app.config.get('TESTING'):
 
 # The SQL DB object
 db = SQLAlchemy(app)
-
-
-## Helpful methods ##
-
-def db_seed():
-    """Rebuild the database populating it with seed data"""
-    db.drop_all()
-    db.create_all()
-    db.session.add(User(name="Craig"))
-    db.session.add(User(name="Vicky"))
-    db.session.add(User(name="Sophie"))
-    db.session.commit()
-
-
-def db_show():
-    """Display data in the DB"""
-    for user in User.query.all(): print user
