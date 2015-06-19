@@ -11,7 +11,7 @@ DEBUG   = True
 TESTING = False
 
 # Database
-SQLALCHEMY_DATABASE_URI = os.path.join("sqlite:///", basepath, "var", "database.db")
+SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basepath, "var", "database.db")
 
 # Json
 JSON_AS_ASCII = False
