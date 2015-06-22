@@ -70,20 +70,26 @@ if __name__ == "__main__":
     from app.routes import *
     from app.models import *
 
+    run_app = True
+
     if args.db_rebuild:
+        run_app = False
         db.drop_all()
         db.create_all()
 
-    elif args.db_seed:
+    if args.db_seed:
+        run_app = False
         db_seed()
 
-    elif args.db_show:
+    if args.db_show:
+        run_app = False
         db_show()
 
-    elif args.cli:
+    if args.cli:
         import pdb
+        run_app = False
         print CLI_MESSAGE
         pdb.set_trace()
 
-    else:
+    if run_app:
         app.run(host=args.host, port=args.port)
