@@ -25,12 +25,28 @@ def db_seed():
     db.session.add(User(name="Craig"))
     db.session.add(User(name="Vicky"))
     db.session.add(User(name="Sophie"))
+    db.session.add(Customer(name="Google"))
+    db.session.add(Customer(name="Apple"))
+    db.session.add(Customer(name="Amazon"))
+    db.session.add(Visitor())
+    db.session.add(Visitor())
+    db.session.add(Visitor())
+    db.session.add(Placeholder(name="Home Page Banner"))
+    db.session.add(Placeholder(name="Product Page RH Sidebar"))
+    db.session.add(Placeholder(name="Account Page LH Sidebar"))
+    db.session.add(Component(name="Winter Sun Banner"))
+    db.session.add(Component(name="Family Fun Banner"))
+    db.session.add(Component(name="City Break Banner"))
     db.session.commit()
 
 
 def db_show():
     """Display data in the DB"""
-    for user in User.query.all(): print user
+    for user        in User.query.all():        print user
+    for customer    in Customer.query.all():    print customer
+    for visitor     in Visitor.query.all():     print visitor
+    for placeholder in Placeholder.query.all(): print placeholder
+    for component   in Component.query.all():   print component
 
 
 if __name__ == "__main__":

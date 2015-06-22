@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Author: Craig Russell <craig@craig-russell.co.uk>
-# Unit Tests for app
+# Unit Tests for User Model
 
 import unittest
 from app import db
