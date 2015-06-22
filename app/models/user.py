@@ -10,4 +10,4 @@ class User(db.Model):
     name = db.Column(db.String(80))
 
     def __repr__(self):
-        return '<User [%s] %s>' % (self.id, self.name)
+        return 'User[%r] %r' % (self.id, self.name)

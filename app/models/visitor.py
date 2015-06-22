@@ -11,4 +11,4 @@ class Visitor(db.Model):
     uuid = db.Column(db.String(80), default= lambda: str(uuid.uuid4()) )
 
     def __repr__(self):
-        return '<Visitor [%s] %s>' % (self.id, self.uuid)
+        return 'Visitor[%r] %r' % (self.id, self.uuid)

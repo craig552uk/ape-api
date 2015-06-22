@@ -10,4 +10,4 @@ class Component(db.Model):
     name = db.Column(db.String(80))
 
     def __repr__(self):
-        return '<Component [%s] %s>' % (self.id, self.name)
+        return 'Component[%r] %r' % (self.id, self.name)

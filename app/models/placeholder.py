@@ -10,4 +10,4 @@ class Placeholder(db.Model):
     name = db.Column(db.String(80))
 
     def __repr__(self):
-        return '<Placeholder [%s] %s>' % (self.id, self.name)
+        return 'Placeholder[%r] %r' % (self.id, self.name)
