@@ -22,31 +22,35 @@ def db_seed():
     """Rebuild the database populating it with seed data"""
     db.drop_all()
     db.create_all()
-    db.session.add(User(name="Craig"))
-    db.session.add(User(name="Vicky"))
-    db.session.add(User(name="Sophie"))
-    db.session.add(Customer(name="Google"))
-    db.session.add(Customer(name="Apple"))
+    db.session.add(Component(name="City Break Banner"))
+    db.session.add(Component(name="Family Fun Banner"))
+    db.session.add(Component(name="Winter Sun Banner"))
     db.session.add(Customer(name="Amazon"))
-    db.session.add(Visitor())
-    db.session.add(Visitor())
-    db.session.add(Visitor())
+    db.session.add(Customer(name="Apple"))
+    db.session.add(Customer(name="Google"))
+    db.session.add(Demographic(name="Mobile Users"))
+    db.session.add(Demographic(name="Recent Visitors"))
+    db.session.add(Demographic(name="Repeat Customer"))
+    db.session.add(Placeholder(name="Account Page LH Sidebar"))
     db.session.add(Placeholder(name="Home Page Banner"))
     db.session.add(Placeholder(name="Product Page RH Sidebar"))
-    db.session.add(Placeholder(name="Account Page LH Sidebar"))
-    db.session.add(Component(name="Winter Sun Banner"))
-    db.session.add(Component(name="Family Fun Banner"))
-    db.session.add(Component(name="City Break Banner"))
+    db.session.add(User(name="Craig"))
+    db.session.add(User(name="Sophie"))
+    db.session.add(User(name="Vicky"))
+    db.session.add(Visitor())
+    db.session.add(Visitor())
+    db.session.add(Visitor())
     db.session.commit()
 
 
 def db_show():
     """Display data in the DB"""
-    for user        in User.query.all():        print user
-    for customer    in Customer.query.all():    print customer
-    for visitor     in Visitor.query.all():     print visitor
-    for placeholder in Placeholder.query.all(): print placeholder
     for component   in Component.query.all():   print component
+    for customer    in Customer.query.all():    print customer
+    for demographic in Demographic.query.all(): print demographic
+    for placeholder in Placeholder.query.all(): print placeholder
+    for user        in User.query.all():        print user
+    for visitor     in Visitor.query.all():     print visitor
 
 
 if __name__ == "__main__":

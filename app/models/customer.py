@@ -9,5 +9,11 @@ class Customer(db.Model):
     id   = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
 
+    # TODO Customer <has> Users
+    # TODO Customer <has> Placeholders
+    # TODO Customer <has> Components
+    # TODO Customer <has> Visitors
+    # TODO Customer <has> Demographics
+
     def __repr__(self):
         return 'Customer[%r] %r' % (self.id, self.name)
