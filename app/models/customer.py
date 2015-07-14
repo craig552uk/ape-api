@@ -8,6 +8,11 @@ from app import db
 class Customer(db.Model):
     id   = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
+    
+    # TODO sites
+    # TODO enabled
+    # TODO created at
+    # TODO modified at
 
     # TODO Customer <has> Users
     # TODO Customer <has> Placeholders

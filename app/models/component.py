@@ -9,5 +9,9 @@ class Component(db.Model):
     id   = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
 
+    # TODO markup
+    # TODO created at
+    # TODO modified at
+
     def __repr__(self):
         return 'Component[%r] %r' % (self.id, self.name)
