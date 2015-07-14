@@ -11,5 +11,6 @@ fake-factory==0.5.2
 itsdangerous==0.24
 logilab-common==0.63.2
 pylint==1.4.3
+simplejson==3.7.3
 six==1.9.0
 wsgiref==0.1.2
