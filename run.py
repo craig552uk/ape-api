@@ -20,26 +20,29 @@ Objects in scope:
 
 def db_seed():
     """Rebuild the database populating it with seed data"""
+    from faker import Factory
+    fake = Factory.create()
+
+    for _ in range(0,3):
+        db.session.add(Customer(name=fake.company()))
+    
+    for _ in range(0,3):
+        db.session.add(User(name=fake.name()))
+
+    for _ in range(0,3):
+        db.session.add(Visitor())
+        
+    for name in ["City Break Banner", "Family Fun Banner", "Winter Sun Banner"]:
+        db.session.add(Component(name=name))
+
+    for name in ["Mobile Users", "Recent Visitors", "Repeat Customers"]:
+        db.session.add(Demographic(name=name))
+ 
+    for name in ["Account Page LH Sidebar", "Home Page Banner", "Product Page RH Sidebar"]:
+        db.session.add(Placeholder(name=name))
+
     db.drop_all()
     db.create_all()
-    db.session.add(Component(name="City Break Banner"))
-    db.session.add(Component(name="Family Fun Banner"))
-    db.session.add(Component(name="Winter Sun Banner"))
-    db.session.add(Customer(name="Amazon"))
-    db.session.add(Customer(name="Apple"))
-    db.session.add(Customer(name="Google"))
-    db.session.add(Demographic(name="Mobile Users"))
-    db.session.add(Demographic(name="Recent Visitors"))
-    db.session.add(Demographic(name="Repeat Customer"))
-    db.session.add(Placeholder(name="Account Page LH Sidebar"))
-    db.session.add(Placeholder(name="Home Page Banner"))
-    db.session.add(Placeholder(name="Product Page RH Sidebar"))
-    db.session.add(User(name="Craig"))
-    db.session.add(User(name="Sophie"))
-    db.session.add(User(name="Vicky"))
-    db.session.add(Visitor())
-    db.session.add(Visitor())
-    db.session.add(Visitor())
     db.session.commit()
 
 
