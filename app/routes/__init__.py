@@ -5,3 +5,4 @@
 
 # Pull routes into top-level space
 import home
+import beacon
