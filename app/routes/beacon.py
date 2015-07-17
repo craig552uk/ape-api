@@ -10,9 +10,10 @@ from app.models import *
 from flask import request, make_response
 from werkzeug.exceptions import HTTPException, BadRequest, InternalServerError, Conflict
 
-def json_response(payload, code=200):
-    """Make and return a json response object"""
-    response = make_response(json.dumps(payload), code)
+def jsonp_response(payload, code=200):
+    """Make and return a jsonp response object"""
+    body = '_ape.callback' + json.dumps(payload) + ')'
+    response = make_response(body, code)
     response.headers['Content-Type'] = "application/javascript;charset=utf-8"
     return response
 
@@ -76,10 +77,10 @@ def beacon():
 
     # TODO Magic!
 
-    return json_response(payload)
+    return jsonp_response(payload)
     
 
 @app.errorhandler(HTTPException)
 def handle_error(e):
     payload  = {'error': e.description, 'name':  e.name}
-    return json_response(payload, e.code)
+    return jsonp_response(payload, e.code)

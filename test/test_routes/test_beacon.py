@@ -34,8 +34,7 @@ class TestRoutes(unittest.TestCase):
         self.app = app.test_client()
 
     def get_beacon(self, **kwargs):
-        """Assert and unpack beacon response"""
-
+        """ helpful wrapper for querying beacon"""
         # Use defaults if not provided
         if not 'debug' in kwargs.keys():       kwargs['debug']       = True
         if not 'page_url' in kwargs.keys():    kwargs['page_url']    = "http://example.com"
@@ -47,8 +46,10 @@ class TestRoutes(unittest.TestCase):
 
         self.assertEqual(r.mimetype, "application/javascript")
         self.assertEqual(r.status_code, 200)
-        
-        data = json.loads(r.data)
+
+        # Unpack jsonp response
+        data = r.data.lstrip('_ape.callback(').rstrip(')')
+        data = json.loads(data)
         self.assertIsInstance(data, dict)
         return data
 
@@ -57,31 +58,28 @@ class TestRoutes(unittest.TestCase):
         r = self.app.get('/beacon.js?', headers=[('DNT', 'true')])
         self.assertEqual(r.mimetype, "application/javascript")
         self.assertEqual(r.status_code, 409) # Conflict
-        self.assertIsInstance(json.loads(r.data), dict)
 
     def test_beacon_page_url(self):
+        # Without page_url
+        r = self.app.get('/beacon.js?id=foo')
+        self.assertEqual(r.mimetype, "application/javascript")
+        self.assertEqual(r.status_code, 400) # Bad Request
+
         value = "http://example.com?foo=bar#baz"
         data = self.get_beacon(page_url=value)
         self.assertIn('page_url', data['args'])
         self.assertEqual(value, data['args']['page_url'])
 
-        # Without page_url
-        r = self.app.get('/beacon.js?id=foo')
-        self.assertEqual(r.mimetype, "application/javascript")
-        self.assertEqual(r.status_code, 400) # Bad Request
-        self.assertIsInstance(json.loads(r.data), dict)
-
     def test_beacon_customer_id(self):
-        value = "foo-bar"
-        data = self.get_beacon(customer_id=value)
-        self.assertIn('customer_id', data['args'])
-        self.assertEqual(value, data['args']['customer_id'])
-        
         # Without customer_id
         r = self.app.get('/beacon.js?dl=foo')
         self.assertEqual(r.mimetype, "application/javascript")
         self.assertEqual(r.status_code, 400) # Bad Request
-        self.assertIsInstance(json.loads(r.data), dict)
+
+        value = "foo-bar"
+        data = self.get_beacon(customer_id=value)
+        self.assertIn('customer_id', data['args'])
+        self.assertEqual(value, data['args']['customer_id'])
 
     def test_beacon_debug(self):
         # debug off
