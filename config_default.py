@@ -17,3 +17,7 @@ SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basepath, "var", "database
 JSON_AS_ASCII = False
 JSON_SORT_KEYS = True
 JSONIFY_PRETTYPRINT_REGULAR = True
+
+# Required to ensure HTTP exception handers work in debug & test
+# See: http://flask.pocoo.org/docs/0.10/api/#flask.Flask.trap_http_exception
+TRAP_HTTP_EXCEPTIONS = True

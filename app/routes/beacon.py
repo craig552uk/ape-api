@@ -8,10 +8,20 @@ from time import time as epoch
 from app import app, db
 from app.models import *
 from flask import request, make_response
+from werkzeug.exceptions import HTTPException, BadRequest, InternalServerError, Conflict
 
+def json_response(payload, code=200):
+    """Make and return a json response object"""
+    response = make_response(json.dumps(payload), code)
+    response.headers['Content-Type'] = "application/javascript;charset=utf-8"
+    return response
 
 @app.route('/beacon.js')
 def beacon():
+
+    # Respect Do Not Track
+    if request.headers.get('DNT', False):
+        raise Conflict("Do Not Track enabled on client")
 
     # Get args data or defaults
     args = dict()
@@ -22,7 +32,7 @@ def beacon():
     args['page_title']     = request.args.get('dt', "")      # Page title
     args['event']          = request.args.get('ev', "")      # Event
     args['customer_id']    = request.args.get('id', "")      # The customer account ID
-    args['timestamp']      = request.args.get('ld', epoch()) # Event timestamp
+    args['timestamp']      = request.args.get('ld', epoch()) # Epoch timestamp
     args['language']       = request.args.get('lg', "")      # Browser language
     args['placeholders']   = request.args.get('pc', "")      # The set of Placeholder ids on this page
     args['prefix']         = request.args.get('px', "ape")   # Placeholder class prefix
@@ -42,12 +52,20 @@ def beacon():
     try:    args['screen_colour'] = int(args['screen_colour'])
     except: args['screen_colour'] = 0
 
-    try:    args['timestamp']     = int(args['timestamp'])
-    except: args['timestamp']     = int(epoch())
+    try:    args['timestamp']     = float(args['timestamp'])
+    except: args['timestamp']     = epoch()
 
     try:    args['debug']         = (args['debug'].lower() == "true")
     except: args['debug']         = False
 
+    # Ensure page url and customer id are provided
+    if not args['page_url']:    raise BadRequest("Bad Request: Value required for page url (dl)")
+    if not args['customer_id']: raise BadRequest("Bad Request: Value required for customer id (id)")
+
+    # Extract placeholder identifiers
+    placeholders = args['placeholders'].split(' ')
+    prefix = args['prefix'] + "-"
+    args['placeholder_ids'] = [c.lstrip(prefix) for c in placeholders if c.startswith(prefix)]
 
     # Response payload
     payload = dict()
@@ -56,8 +74,12 @@ def beacon():
     if args['debug']:
         payload['args'] = args
 
-    # Build response
-    body     = json.dumps(payload, indent=2)
-    response = make_response(body, 200)
-    response.headers['Content-Type'] = "application/javascript;charset=utf-8"
-    return response
+    # TODO Magic!
+
+    return json_response(payload)
+    
+
+@app.errorhandler(HTTPException)
+def handle_error(e):
+    payload  = {'error': e.description, 'name':  e.name}
+    return json_response(payload, e.code)
