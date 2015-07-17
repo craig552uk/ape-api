@@ -93,10 +93,6 @@ class TestRoutes(unittest.TestCase):
         self.assertIn('args', data)
         self.assertTrue(data['args']['debug'])
 
-        # Debug provides all params
-        for param in params.keys():
-            self.assertIn(param, data['args'])
-
     def test_beacon_visitor_id(self):
         value = "foo-bar"
         data = self.get_beacon(visitor_id=value)
