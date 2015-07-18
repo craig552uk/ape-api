@@ -10,7 +10,7 @@ from app.models import Customer
 
 class TestModelCustomer(unittest.TestCase):
 
-    def test_crud(self):
+    def test_customer_crud(self):
         # Create
         customer = Customer(name='Foo', sites=['foo', 'bar'])
         db.session.add(customer)

@@ -9,7 +9,7 @@ from app.models import User
 
 class TestModelUser(unittest.TestCase):
 
-    def test_crud(self):
+    def test_user_crud(self):
         # Create
         user = User(name='Foo')
         db.session.add(user)

@@ -9,7 +9,7 @@ from app.models import Visitor
 
 class TestModelVisitor(unittest.TestCase):
 
-    def test_crud(self):
+    def test_visitor_crud(self):
         # Create
         visitor = Visitor()
         db.session.add(visitor)

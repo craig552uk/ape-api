@@ -9,7 +9,7 @@ from app.models import Demographic
 
 class TestModelDemographic(unittest.TestCase):
 
-    def test_crud(self):
+    def test_demographic_crud(self):
         # Create
         demographic = Demographic(name='Foo')
         db.session.add(demographic)

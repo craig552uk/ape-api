@@ -9,7 +9,7 @@ from app.models import Component
 
 class TestModelComponent(unittest.TestCase):
 
-    def test_crud(self):
+    def test_component_crud(self):
         # Create
         component = Component(name='Foo')
         db.session.add(component)

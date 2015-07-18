@@ -9,7 +9,7 @@ from app.models import Placeholder
 
 class TestModelPlaceholder(unittest.TestCase):
 
-    def test_crud(self):
+    def test_placeholder_crud(self):
         # Create
         placeholder = Placeholder(name='Foo')
         db.session.add(placeholder)
