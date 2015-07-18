@@ -6,6 +6,8 @@
 from app import db
 
 class Placeholder(db.Model):
+    __tablename__ = "placeholders"
+    
     id   = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
 
