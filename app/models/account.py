@@ -19,7 +19,8 @@ class Account(db.Model):
     created_at = db.Column(db.DateTime, default=DT.now())
     updated_at = db.Column(db.DateTime, default=DT.now(), onupdate=DT.now())
 
-    users = relationship("User", backref="account")
+    users    = relationship("User", backref="account")
+    visitors = relationship("Visitor", backref="account")
     # TODO Account <has> Placeholders
     # TODO Account <has> Components
     # TODO Account <has> Visitors

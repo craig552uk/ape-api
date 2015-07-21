@@ -9,8 +9,9 @@ from app import db
 class Visitor(db.Model):
     __tablename__ = "visitors"
     
-    id   = db.Column(db.Integer, primary_key=True)
-    uuid = db.Column(db.String(80), default=lambda: str(uuid.uuid4())) # TODO account.id + random id
+    id         = db.Column(db.Integer, primary_key=True)
+    account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
+    uuid       = db.Column(db.String(80), default=lambda: str(uuid.uuid4())) # TODO account.id + random id
 
     # TODO created_at
 
