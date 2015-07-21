@@ -22,7 +22,7 @@ class Account(db.Model):
     users        = relationship("User", backref="account")
     visitors     = relationship("Visitor", backref="account")
     placeholders = relationship("Placeholder", backref="account")
-    # TODO Account <has> Components
+    components   = relationship("Component", backref="account")
     # TODO Account <has> Segments
 
     def __repr__(self):

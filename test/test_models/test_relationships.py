@@ -6,7 +6,7 @@
 import unittest
 import datetime as DT
 from app import db
-from app.models import Account, User, Visitor, Placeholder
+from app.models import Account, User, Visitor, Placeholder, Component
 
 class TestModelRelationships(unittest.TestCase):
 
@@ -41,3 +41,11 @@ class TestModelRelationships(unittest.TestCase):
         db.session.commit()
         self.assertIn(placeholder, account.placeholders)
         self.assertEqual(placeholder.account, account)
+
+        # Add component to account
+        component = Component(name="Foo")
+        account.components.append(component)
+        db.session.add(component)
+        db.session.commit()
+        self.assertIn(component, account.components)
+        self.assertEqual(component.account, account)
