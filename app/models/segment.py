@@ -8,8 +8,9 @@ from app import db
 class Segment(db.Model): # TODO rename to Segments
     __tablename__ = "segments"
     
-    id   = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
+    id         = db.Column(db.Integer, primary_key=True)
+    account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
+    name       = db.Column(db.String(80))
     
     # TODO enabled
     # TODO created at
