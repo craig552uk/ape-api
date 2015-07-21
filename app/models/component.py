@@ -12,8 +12,8 @@ class Component(db.Model):
     name = db.Column(db.String(80))
 
     # TODO markup
-    # TODO created at
-    # TODO modified at
+    # TODO created_at
+    # TODO updated_at
 
     def __repr__(self):
         return 'Component[%r] %r' % (self.id, self.name)

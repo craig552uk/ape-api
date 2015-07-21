@@ -11,10 +11,11 @@ class Segment(db.Model): # TODO rename to Segments
     id   = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     
-    # TODO rules (pickled dicts)
     # TODO enabled
     # TODO created at
     # TODO modified at
+
+    # TODO Segment <has> Rules
 
     def __repr__(self):
         return 'Segment[%r] %r' % (self.id, self.name)

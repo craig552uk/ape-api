@@ -11,9 +11,9 @@ class Placeholder(db.Model):
     id   = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
 
-    # TODO uid (element class)
-    # TODO created at
-    # TODO modified at
+    # TODO uuid (element class)
+    # TODO created_at
+    # TODO modified_at
 
     def __repr__(self):
         return 'Placeholder[%r] %r' % (self.id, self.name)
