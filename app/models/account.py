@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 #
 # Author: Craig Russell <craig@craig-russell.co.uk>
-# Customer Model
+# Account Model
 
 import uuid
 from app import db
 from datetime import datetime as DT
 
-class Customer(db.Model):
-    __tablename__ = "customers"
+class Account(db.Model):
+    __tablename__ = "accounts"
 
     id         = db.Column(db.Integer, primary_key=True)
     name       = db.Column(db.String(80))
@@ -18,12 +18,12 @@ class Customer(db.Model):
     created_at = db.Column(db.DateTime, default=DT.now())
     updated_at = db.Column(db.DateTime, default=DT.now(), onupdate=DT.now())
 
-    # TODO Customer <has> Users
-    # TODO Customer <has> Placeholders
-    # TODO Customer <has> Components
-    # TODO Customer <has> Visitors
-    # TODO Customer <has> Demographics
+    # TODO Account <has> Users
+    # TODO Account <has> Placeholders
+    # TODO Account <has> Components
+    # TODO Account <has> Visitors
+    # TODO Account <has> Demographics
 
     def __repr__(self):
-        return 'Customer[%r] %r, %r, %r, %r, %r, %r' % \
+        return 'Account[%r] %r, %r, %r, %r, %r, %r' % \
             (self.id, self.name, self.uuid, self.sites, self.enabled, self.created_at, self.updated_at)

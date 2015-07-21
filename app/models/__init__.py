@@ -5,7 +5,7 @@
 
 # Pull model classes into top-level module space
 from component import Component
-from customer import Customer
+from account import Account
 from demographic import Demographic
 from placeholder import Placeholder
 from user import User
