@@ -4,6 +4,7 @@
 # Unit Tests for Visitor Model
 
 import unittest
+import datetime as DT
 from app import db
 from app.models import Visitor
 
@@ -15,6 +16,8 @@ class TestModelVisitor(unittest.TestCase):
         db.session.add(visitor)
         db.session.commit()
         self.assertIn(visitor, Visitor.query.all())
+        self.assertIsInstance(visitor.uuid, unicode)
+        self.assertIsInstance(visitor.created_at, DT.datetime)
 
         # Read
         uuid = visitor.uuid
