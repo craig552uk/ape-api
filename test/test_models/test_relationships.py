@@ -6,7 +6,7 @@
 import unittest
 import datetime as DT
 from app import db
-from app.models import Account, User, Visitor, Placeholder, Component, Segment
+from app.models import Account, User, Visitor, Placeholder, Component, Segment, Rule
 
 class TestModelRelationships(unittest.TestCase):
 
@@ -57,3 +57,12 @@ class TestModelRelationships(unittest.TestCase):
         db.session.commit()
         self.assertIn(segment, account.segments)
         self.assertEqual(segment.account, account)
+        self.assertEqual(segment.rules, [])
+
+        # Add rule to segment
+        rule = Rule()
+        segment.rules.append(rule)
+        db.session.add(rule)
+        db.session.commit()
+        self.assertIn(rule, segment.rules)
+        self.assertEqual(rule.segment, segment)

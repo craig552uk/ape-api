@@ -5,11 +5,12 @@
 
 from app import db
 
-class Rule(db.Model): # TODO rename to Rules
+class Rule(db.Model):
     __tablename__ = "rules"
     
-    id   = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
+    id         = db.Column(db.Integer, primary_key=True)
+    segment_id = db.Column(db.Integer, db.ForeignKey('segments.id'))
+    name       = db.Column(db.String(80))
     
     # TODO group_id
     # TODO field

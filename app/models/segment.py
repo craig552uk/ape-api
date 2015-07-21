@@ -3,9 +3,10 @@
 # Author: Craig Russell <craig@craig-russell.co.uk>
 # Segment models
 
+from sqlalchemy.orm import relationship
 from app import db
 
-class Segment(db.Model): # TODO rename to Segments
+class Segment(db.Model):
     __tablename__ = "segments"
     
     id         = db.Column(db.Integer, primary_key=True)
@@ -16,7 +17,7 @@ class Segment(db.Model): # TODO rename to Segments
     # TODO created at
     # TODO modified at
 
-    # TODO Segment <has> Rules
+    rules = relationship("Rule", backref="segment")
 
     def __repr__(self):
         return 'Segment[%r] %r' % (self.id, self.name)
