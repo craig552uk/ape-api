@@ -22,7 +22,7 @@ class Account(db.Model):
     # TODO Account <has> Placeholders
     # TODO Account <has> Components
     # TODO Account <has> Visitors
-    # TODO Account <has> Demographics
+    # TODO Account <has> Segments
 
     def __repr__(self):
         return 'Account[%r] %r, %r, %r, %r, %r, %r' % \
