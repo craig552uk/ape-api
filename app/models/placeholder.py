@@ -9,6 +9,7 @@ class Placeholder(db.Model):
     __tablename__ = "placeholders"
     
     id   = db.Column(db.Integer, primary_key=True)
+    account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     name = db.Column(db.String(80))
 
     # TODO uuid (element class)
