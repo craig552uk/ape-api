@@ -4,8 +4,9 @@
 # Account Model
 
 import uuid
-from app import db
 from datetime import datetime as DT
+from sqlalchemy.orm import relationship
+from app import db
 
 class Account(db.Model):
     __tablename__ = "accounts"
@@ -18,7 +19,7 @@ class Account(db.Model):
     created_at = db.Column(db.DateTime, default=DT.now())
     updated_at = db.Column(db.DateTime, default=DT.now(), onupdate=DT.now())
 
-    # TODO Account <has> Users
+    users = relationship("User", backref="account")
     # TODO Account <has> Placeholders
     # TODO Account <has> Components
     # TODO Account <has> Visitors
