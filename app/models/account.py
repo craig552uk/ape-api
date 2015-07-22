@@ -26,4 +26,4 @@ class Account(db.Model):
 
     def __repr__(self):
         return 'Account[%r] %r, %r, %r, %r, %r, %r' % \
-            (self.id, self.name, self.uuid, self.sites, self.enabled, self.created_at, self.updated_at)
+            (self.id, self.name, self.uuid, self.sites, self.enabled, self.created_at.isoformat(), self.updated_at.isoformat())

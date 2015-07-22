@@ -22,4 +22,4 @@ class Placeholder(db.Model):
 
     def __repr__(self):
         return 'Placeholder[%r] %r, %r, %r, %r' % \
-            (self.id, self.name, self.uuid, self.created_at, self.updated_at)
+            (self.id, self.name, self.uuid, self.created_at.isoformat(), self.updated_at.isoformat())

@@ -21,5 +21,9 @@ class User(db.Model):
     last_login = db.Column(db.DateTime)
 
     def __repr__(self):
-        return 'User[%r] %r, %r, %r, %r, %r, %r, %r' % \
-            (self.id, self.name, self.email, self.enabled, self.is_admin, self.created_at, self.updated_at, self.last_login)
+        if self.last_login:
+            return 'User[%r] %r, %r, %r, %r, %r, %r, %r' % \
+                (self.id, self.name, self.email, self.enabled, self.admin, self.created_at.isoformat(), self.updated_at.isoformat(), self.last_login.isoformat())
+        else:
+            return 'User[%r] %r, %r, %r, %r, %r, %r, %r' % \
+                (self.id, self.name, self.email, self.enabled, self.admin, self.created_at.isoformat(), self.updated_at.isoformat(), "Never Logged In")

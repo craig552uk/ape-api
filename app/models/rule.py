@@ -20,4 +20,4 @@ class Rule(db.Model):
 
     def __repr__(self):
         return 'Rule[%r] %r, %r, %r, %r, %r, %r, %r' % \
-            (self.id, self.name, self.segment_id, self.group_id, self.field, self.comparator, self.value, self.created_at, self.updated_at)
+            (self.id, self.segment_id, self.group_id, self.field, self.comparator, self.value, self.created_at.isoformat(), self.updated_at.isoformat())

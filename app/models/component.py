@@ -19,4 +19,4 @@ class Component(db.Model):
 
     def __repr__(self):
         return 'Component[%r] %r, %r, %r, %r' % \
-            (self.id, self.name, self.index, self.created_at, self,updated_at)
+            (self.id, self.name, self.index, self.created_at.isoformat(), self.updated_at.isoformat())

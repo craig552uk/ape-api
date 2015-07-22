@@ -19,4 +19,4 @@ class Segment(db.Model):
     rules = relationship("Rule", backref="segment")
 
     def __repr__(self):
-        return 'Segment[%r] %r' % (self.id, self.name)
+        return 'Segment[%r] %r, %r, %r' % (self.id, self.name, self.created_at.isoformat(), self.updated_at.isoformat())

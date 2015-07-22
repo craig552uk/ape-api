@@ -16,4 +16,4 @@ class Visitor(db.Model):
     created_at = db.Column(db.DateTime, default=DT.now())
 
     def __repr__(self):
-        return 'Visitor[%r] %r' % (self.id, self.uuid)
+        return 'Visitor[%r] %r, %r' % (self.id, self.uuid, self.created_at.isoformat())

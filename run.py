@@ -24,22 +24,28 @@ def db_seed():
     fake = Factory.create()
 
     for _ in range(0,3):
-        db.session.add(Customer(name=fake.company()))
+        account = Account(name=fake.company())
+        db.session.add(account)
     
-    for _ in range(0,3):
-        db.session.add(User(name=fake.name()))
+        for _ in range(0,3):
+            account.users.append(User(name=fake.name()))
 
-    for _ in range(0,3):
-        db.session.add(Visitor())
-        
-    for name in ["City Break Banner", "Family Fun Banner", "Winter Sun Banner"]:
-        db.session.add(Component(name=name))
+        for _ in range(0,3):
+            account.visitors.append(Visitor())
+            
+        for name in ["Mobile Users", "Recent Visitors", "Repeat Customers"]:
+            segment = Segment(name=name)
+            account.segments.append(segment)
 
-    for name in ["Mobile Users", "Recent Visitors", "Repeat Customers"]:
-        db.session.add(Demographic(name=name))
- 
-    for name in ["Account Page LH Sidebar", "Home Page Banner", "Product Page RH Sidebar"]:
-        db.session.add(Placeholder(name=name))
+            for field in ["url", "domain", "referral"]:
+                segment.rules.append(Rule(group_id=0, field=field, comparator="EQUAL", value="FooBar"))
+
+        for name in ["Account Page LH Sidebar", "Home Page Banner", "Product Page RH Sidebar"]:
+            placeholder = Placeholder(name=name)
+            account.placeholders.append(placeholder)
+
+            for name in ["City Break Banner", "Family Fun Banner", "Winter Sun Banner"]:
+                placeholder.components.append(Component(name=name))
 
     db.drop_all()
     db.create_all()
@@ -48,12 +54,13 @@ def db_seed():
 
 def db_show():
     """Display data in the DB"""
-    for component   in Component.query.all():   print component
-    for customer    in Customer.query.all():    print customer
-    for demographic in Demographic.query.all(): print demographic
-    for placeholder in Placeholder.query.all(): print placeholder
+    for account     in Account.query.all():     print account
     for user        in User.query.all():        print user
     for visitor     in Visitor.query.all():     print visitor
+    for placeholder in Placeholder.query.all(): print placeholder
+    for component   in Component.query.all():   print component
+    for segment     in Segment.query.all():     print segment
+    for rule        in Rule.query.all():        print rule
 
 
 if __name__ == "__main__":
