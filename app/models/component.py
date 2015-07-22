@@ -13,7 +13,7 @@ class Component(db.Model):
     placeholder_id = db.Column(db.Integer, db.ForeignKey('placeholders.id'))
     index          = db.Column(db.Integer)
     name           = db.Column(db.String(80))
-    markup         = db.Column(db.String(80))
+    markup         = db.Column(db.String(1048))
     created_at     = db.Column(db.DateTime, default=DT.now())
     updated_at     = db.Column(db.DateTime, default=DT.now(), onupdate=DT.now())
 
