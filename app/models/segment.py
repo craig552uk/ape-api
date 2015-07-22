@@ -3,6 +3,7 @@
 # Author: Craig Russell <craig@craig-russell.co.uk>
 # Segment models
 
+from datetime import datetime as DT
 from sqlalchemy.orm import relationship
 from app import db
 
@@ -12,9 +13,8 @@ class Segment(db.Model):
     id         = db.Column(db.Integer, primary_key=True)
     account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     name       = db.Column(db.String(80))
-    
-    # TODO created at
-    # TODO modified at
+    created_at = db.Column(db.DateTime, default=DT.now())
+    updated_at = db.Column(db.DateTime, default=DT.now(), onupdate=DT.now())
 
     rules = relationship("Rule", backref="segment")
 
