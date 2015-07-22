@@ -12,6 +12,7 @@ class Component(db.Model):
     placeholder_id = db.Column(db.Integer, db.ForeignKey('placeholders.id'))
     name           = db.Column(db.String(80))
 
+    # TODO order
     # TODO markup
     # TODO created_at
     # TODO updated_at

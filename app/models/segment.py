@@ -13,7 +13,6 @@ class Segment(db.Model):
     account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     name       = db.Column(db.String(80))
     
-    # TODO enabled
     # TODO created at
     # TODO modified at
 
