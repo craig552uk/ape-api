@@ -35,7 +35,7 @@ class TestModelRelationships(unittest.TestCase):
         self.assertEqual(visitor.account, account)
 
         # Add placeholder to account
-        placeholder = Placeholder(name="Foo")
+        placeholder = Placeholder(name="Placeholder Foo")
         account.placeholders.append(placeholder)
         db.session.add(placeholder)
         db.session.commit()
@@ -43,7 +43,7 @@ class TestModelRelationships(unittest.TestCase):
         self.assertEqual(placeholder.account, account)
 
         # Add component to placeholder
-        component = Component(name="Foo")
+        component = Component(name="Component Foo")
         placeholder.components.append(component)
         db.session.add(component)
         db.session.commit()
@@ -51,7 +51,7 @@ class TestModelRelationships(unittest.TestCase):
         self.assertEqual(component.placeholder, placeholder)
 
         # Add segment to account
-        segment = Segment(name="Foo")
+        segment = Segment(name="Segment Foo")
         account.segments.append(segment)
         db.session.add(segment)
         db.session.commit()
