@@ -22,7 +22,6 @@ class Account(db.Model):
     users        = relationship("User", backref="account")
     visitors     = relationship("Visitor", backref="account")
     placeholders = relationship("Placeholder", backref="account")
-    components   = relationship("Component", backref="account")
     segments     = relationship("Segment", backref="account")
 
     def __repr__(self):
