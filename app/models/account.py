@@ -34,9 +34,12 @@ class Account(db.Model):
         return False
 
     @classmethod
-    def can_track(account_uuid, url): # TODO
+    def can_track(cls, account_uuid, url): # TODO
         """Returns true if account exists, is enabled and owns this site"""
-        pass
+        account = Account.query.filter_by(uuid=account_uuid).first()
+        if account:
+            return account and account.enabled and account.url_in_sites(url)
+        return False
 
     def __repr__(self):
         return 'Account[%r] %r, %r, %r, %r, %r, %r' % \
