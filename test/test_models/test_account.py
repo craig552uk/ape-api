@@ -46,3 +46,14 @@ class TestModelAccount(unittest.TestCase):
         db.session.delete(account)
         count = Account.query.filter_by(name='Bar').count()
         self.assertEqual(0, count)
+
+    def test_account_url_in_sites(self):
+        account = Account(name='Foo', sites=['example.com', 'foo-bar.org'])
+        self.assertTrue(account.url_in_sites("http://example.com"))
+        self.assertTrue(account.url_in_sites("https://example.com"))
+        self.assertTrue(account.url_in_sites("http://example.com/foo/bar"))
+        self.assertTrue(account.url_in_sites("https://example.com/foo/bar"))
+        self.assertFalse(account.url_in_sites("http://dummy.com"))
+        self.assertFalse(account.url_in_sites("https://dummy.com"))
+        self.assertFalse(account.url_in_sites("http://dummy.com/foo/bar"))
+        self.assertFalse(account.url_in_sites("https://dummy.com/foo/bar"))

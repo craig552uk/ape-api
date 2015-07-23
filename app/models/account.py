@@ -24,10 +24,14 @@ class Account(db.Model):
     placeholders = relationship("Placeholder", backref="account")
     segments     = relationship("Segment", backref="account")
 
-    def url_in_sites(self, url): # TODO
+    def url_in_sites(self, url):
         """Returns true if the requested url belongs to one of the sites owned by this account"""
-        # TODO Make classmethod and cache all account-site data for efficiency
-        pass
+        url = url.lstrip("http://")
+        url = url.lstrip("https://")
+
+        for site in self.sites:
+            if url.startswith(site): return True
+        return False
 
     @classmethod
     def can_track(account_uuid, url): # TODO
