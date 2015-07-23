@@ -18,5 +18,9 @@ class Segment(db.Model):
 
     rules = relationship("Rule", backref="segment")
 
+    def test_visitor_data(self, visitor_data): # TODO
+        """Return true if segment rules accept visitor_data, return false otherwise"""
+        pass
+
     def __repr__(self):
         return 'Segment[%r] %r, %r, %r' % (self.id, self.name, self.created_at.isoformat(), self.updated_at.isoformat())

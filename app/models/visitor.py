@@ -15,5 +15,14 @@ class Visitor(db.Model):
     uuid       = db.Column(db.String(80), default=lambda: str(uuid.uuid4()))
     created_at = db.Column(db.DateTime, default=DT.now())
 
+    def store_payload(self, payload): # TODO
+        """Adds payload to the stored data for this visitor, returns updated visitor data"""
+        pass
+
+    @classmethod
+    def get_or_create(account_uuid, visitor_uuid=None): # TODO
+        """Returns visitor record with this uuid for account or create and return new"""
+        pass
+
     def __repr__(self):
         return 'Visitor[%r] %r, %r' % (self.id, self.uuid, self.created_at.isoformat())

@@ -24,6 +24,16 @@ class Account(db.Model):
     placeholders = relationship("Placeholder", backref="account")
     segments     = relationship("Segment", backref="account")
 
+    def url_in_sites(self, url): # TODO
+        """Returns true if the requested url belongs to one of the sites owned by this account"""
+        # TODO Make classmethod and cache all account-site data for efficiency
+        pass
+
+    @classmethod
+    def can_track(account_uuid, url): # TODO
+        """Returns true if account exists, is enabled and owns this site"""
+        pass
+
     def __repr__(self):
         return 'Account[%r] %r, %r, %r, %r, %r, %r' % \
             (self.id, self.name, self.uuid, self.sites, self.enabled, self.created_at.isoformat(), self.updated_at.isoformat())
