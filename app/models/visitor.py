@@ -28,21 +28,19 @@ class Visitor(db.Model):
     def get_or_create(cls, account, visitor_uuid=None):
         """Returns visitor record with this uuid for account or create and return new"""
 
-        if not visitor_uuid:
-            visitor = Visitor()
-            account.visitors.append(visitor)
-            db.session.add(visitor)
-            db.session.commit()
+        if visitor_uuid:
+            visitor = Visitor.query.filter_by(account_id=account.id, uuid=unicode(visitor_uuid)).first()
+            if visitor:
+                return visitor
+            else:
+                visitor = Visitor(uuid=unicode(visitor_uuid))
     
         else:
-            visitor = Visitor.query.filter_by(account_id=account.id, uuid=unicode(visitor_uuid)).first()
+            visitor = Visitor()
 
-            if visitor is None:
-                visitor = Visitor(uuid=unicode(visitor_uuid))
-                account.visitors.append(visitor)
-                db.session.add(visitor)
-                db.session.commit()
-
+        account.visitors.append(visitor)
+        db.session.add(visitor)
+        db.session.commit()
         return visitor
 
     def __repr__(self):
