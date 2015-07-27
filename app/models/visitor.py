@@ -20,6 +20,10 @@ class Visitor(db.Model):
         """Adds payload to the stored data for this visitor, returns updated visitor data"""
         pass
 
+    def guid(self):
+        """Returns a uid for this visitor scoped to this account"""
+        return "%s-%s" % (self.account.uuid, self.uuid)
+
     @classmethod
     def get_or_create(cls, account_uuid, visitor_uuid=None):
         """Returns visitor record with this uuid for account or create and return new"""

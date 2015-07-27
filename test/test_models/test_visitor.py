@@ -74,3 +74,13 @@ class TestModelVisitor(unittest.TestCase):
         self.assertEqual(visitor_d.account, account_2)
         self.assertEqual(visitor_d, visitor)
         self.assertIn(visitor_d, account_2.visitors)
+
+    def test_visitor_guid(self):
+        account = Account(name="Foo 3")
+        visitor = Visitor()
+        account.visitors.append(visitor)
+        db.session.add(account)
+        db.session.commit()
+
+        required_guid = "%s-%s" % (account.uuid, visitor.uuid)
+        self.assertEqual(visitor.guid(), required_guid)
