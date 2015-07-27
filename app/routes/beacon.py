@@ -32,7 +32,7 @@ def beacon():
     args['referrer_url']   = request.args.get('dr', "")      # Referrer URL if set
     args['page_title']     = request.args.get('dt', "")      # Page title
     args['event']          = request.args.get('ev', "")      # Event
-    args['customer_id']    = request.args.get('id', "")      # The customer account ID
+    args['account_id']     = request.args.get('id', "")      # The customer account ID
     args['timestamp']      = request.args.get('ld', epoch()) # Epoch timestamp
     args['language']       = request.args.get('lg', "")      # Browser language
     args['placeholders']   = request.args.get('pc', "")      # The set of Placeholder ids on this page
@@ -60,8 +60,8 @@ def beacon():
     except: args['debug']         = False
 
     # Ensure page url and customer id are provided
-    if not args['page_url']:    raise BadRequest("Bad Request: Value required for page url (dl)")
-    if not args['customer_id']: raise BadRequest("Bad Request: Value required for customer id (id)")
+    if not args['page_url']:   raise BadRequest("Bad Request: Value required for page url (dl)")
+    if not args['account_id']: raise BadRequest("Bad Request: Value required for customer id (id)")
 
     # Extract placeholder identifiers
     placeholders = args['placeholders'].split(' ')

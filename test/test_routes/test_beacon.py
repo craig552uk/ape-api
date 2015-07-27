@@ -16,7 +16,7 @@ params = {
     'referrer_url':   'dr', # Referrer URL if set
     'page_title':     'dt', # Page title
     'event':          'ev', # Event
-    'customer_id':    'id', # The customer account ID
+    'account_id':    'id', # The customer account ID
     'timestamp':      'ld', # Event timestamp
     'language':       'lg', # Browser language
     'placeholders':   'pc', # The set of Placeholder ids on this page
@@ -38,7 +38,7 @@ class TestRoutes(unittest.TestCase):
         # Use defaults if not provided
         if not 'debug' in kwargs.keys():       kwargs['debug']       = True
         if not 'page_url' in kwargs.keys():    kwargs['page_url']    = "http://example.com"
-        if not 'customer_id' in kwargs.keys(): kwargs['customer_id'] = "foo-bar"
+        if not 'account_id' in kwargs.keys(): kwargs['account_id'] = "foo-bar"
 
         # Map frindly params to short names
         args = {params[key]: val for key,val in kwargs.items()}
@@ -71,15 +71,15 @@ class TestRoutes(unittest.TestCase):
         self.assertEqual(value, data['args']['page_url'])
 
     def test_beacon_customer_id(self):
-        # Without customer_id
+        # Without account_id
         r = self.app.get('/beacon.js?dl=foo')
         self.assertEqual(r.mimetype, "application/javascript")
         self.assertEqual(r.status_code, 400) # Bad Request
 
         value = "foo-bar"
-        data = self.get_beacon(customer_id=value)
-        self.assertIn('customer_id', data['args'])
-        self.assertEqual(value, data['args']['customer_id'])
+        data = self.get_beacon(account_id=value)
+        self.assertIn('account_id', data['args'])
+        self.assertEqual(value, data['args']['account_id'])
 
     def test_beacon_debug(self):
         # debug off
