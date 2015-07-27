@@ -33,12 +33,6 @@ class Account(db.Model):
             if url.startswith(site): return True
         return False
 
-    @classmethod
-    def can_track(cls, account_uuid, url):
-        """Returns true if account exists, is enabled and owns this site"""
-        account = Account.query.filter_by(uuid=account_uuid).first()
-        return account is not None and account.enabled and account.url_in_sites(url)
-
     def __repr__(self):
         return 'Account[%r] %r, %r, %r, %r, %r, %r' % \
             (self.id, self.name, self.uuid, self.sites, self.enabled, self.created_at.isoformat(), self.updated_at.isoformat())

@@ -57,15 +57,3 @@ class TestModelAccount(unittest.TestCase):
         self.assertFalse(account.url_in_sites("https://dummy.com"))
         self.assertFalse(account.url_in_sites("http://dummy.com/foo/bar"))
         self.assertFalse(account.url_in_sites("https://dummy.com/foo/bar"))
-
-    def test_account_can_track(self):
-        account_a = Account(name='Foo', sites=['example.com'], enabled=False)
-        account_b = Account(name='Foo', sites=['example.com'])
-        db.session.add(account_a)
-        db.session.add(account_b)
-        db.session.commit()
-
-        self.assertFalse(Account.can_track("dummy-uuid", "http://example.com/foo"))
-        self.assertFalse(Account.can_track(account_a.uuid, "http://example.com/foo"))
-        self.assertFalse(Account.can_track(account_b.uuid, "http://bad.com/foo"))
-        self.assertTrue(Account.can_track(account_b.uuid, "http://example.com/foo"))
