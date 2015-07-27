@@ -25,15 +25,23 @@ class Visitor(db.Model):
         return "%s-%s" % (self.account.uuid, self.uuid)
 
     @classmethod
-    def get_or_create(cls, account, visitor_uuid):
+    def get_or_create(cls, account, visitor_uuid=None):
         """Returns visitor record with this uuid for account or create and return new"""
-        visitor = Visitor.query.filter_by(account_id=account.id, uuid=unicode(visitor_uuid)).first()
 
-        if visitor is None:
-            visitor = Visitor(uuid=unicode(visitor_uuid))
+        if not visitor_uuid:
+            visitor = Visitor()
             account.visitors.append(visitor)
             db.session.add(visitor)
             db.session.commit()
+    
+        else:
+            visitor = Visitor.query.filter_by(account_id=account.id, uuid=unicode(visitor_uuid)).first()
+
+            if visitor is None:
+                visitor = Visitor(uuid=unicode(visitor_uuid))
+                account.visitors.append(visitor)
+                db.session.add(visitor)
+                db.session.commit()
 
         return visitor
 

@@ -44,6 +44,12 @@ class TestModelVisitor(unittest.TestCase):
         db.session.add(account_2)
         db.session.commit()
 
+        # Return new Visitor if visitor uuid empty
+        visitor_a = Visitor.get_or_create(account_1, "")
+        self.assertIsInstance(visitor_a, Visitor)
+        self.assertEqual(visitor_a.account, account_1)
+        self.assertIn(visitor_a, account_1.visitors)
+
         # Return new Visitor with specified uuid if unknown
         visitor_b = Visitor.get_or_create(account_1, "new-visitor-uuid")
         self.assertIsInstance(visitor_b, Visitor)
