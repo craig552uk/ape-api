@@ -18,7 +18,7 @@ class Segment(db.Model):
 
     rules = relationship("Rule", backref="segment")
 
-    def test_visitor_data(self, visitor_data): # TODO
+    def matches_data(self, visitor_data): # TODO
         """Return true if segment rules accept visitor_data, return false otherwise"""
         pass
 
