@@ -24,7 +24,6 @@ params = {
     'screen_colour':  'sc', # Screen colour depth
     'screen_height':  'sh', # Screen height
     'screen_width':   'sw', # Screen width
-    'user_agent':     'ua', # User Agent
     'script_version': 'vr', # Version number of this script
 }
 
@@ -69,6 +68,26 @@ class TestRoutes(unittest.TestCase):
         data = self.get_beacon(page_url=value)
         self.assertIn('page_url', data['args'])
         self.assertEqual(value, data['args']['page_url'])
+
+    def test_beacon_user_agent(self):
+        data = self.get_beacon()
+        self.assertIn('user_agent', data['args'])
+
+    def test_beacon_platform_name(self):
+        data = self.get_beacon()
+        self.assertIn('platform_name', data['args'])
+
+    def test_beacon_browser_name(self):
+        data = self.get_beacon()
+        self.assertIn('browser_name', data['args'])
+
+    def test_beacon_browser_version(self):
+        data = self.get_beacon()
+        self.assertIn('browser_version', data['args'])
+
+    def test_beacon_request_address(self):
+        data = self.get_beacon()
+        self.assertIn('request_address', data['args'])
 
     def test_beacon_customer_id(self):
         # Without account_id
@@ -175,12 +194,6 @@ class TestRoutes(unittest.TestCase):
         # Bad Value
         data = self.get_beacon(screen_width="foo")
         self.assertEqual(0, data['args']['screen_width'])
-
-    def test_beacon_user_agent(self):
-        value = "Foo Bar"
-        data = self.get_beacon(user_agent=value)
-        self.assertIn('user_agent', data['args'])
-        self.assertEqual(value, data['args']['user_agent'])
 
     def test_beacon_script_version(self):
         value = "0.0.0"
