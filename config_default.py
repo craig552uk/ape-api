@@ -12,6 +12,8 @@ TESTING = False
 
 # Database
 SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basepath, "var", "database.db")
+SHELVE_PATH = os.path.join(basepath, "var", "shelve.db")
+
 
 # Json
 JSON_AS_ASCII = False

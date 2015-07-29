@@ -4,8 +4,9 @@
 # Visitor Model
 
 import uuid
+import shelve
 from datetime import datetime as DT
-from app import db
+from app import app, db
 from app.models import Account
 
 class Visitor(db.Model):
@@ -16,13 +17,21 @@ class Visitor(db.Model):
     uuid       = db.Column(db.String(80), default=lambda: str(uuid.uuid4()))
     created_at = db.Column(db.DateTime, default=DT.now())
 
-    def store_payload(self, payload): # TODO
+
+    DEFAULT_DATA = dict(visitor_id=None, account_id=None, sessions=[])
+
+    def store_payload(self, payload):
         """Adds payload to the stored data for this visitor, returns updated visitor data"""
-        pass
+        s = shelve.open(app.config.get('SHELVE_PATH'))
+        data = s.get(self.guid(), dict())
+        # data = Visitor.insert_payload_to_data(data, payload) # TODO
+        s[self.guid()] = data
+        s.close()
+        return data
 
     def guid(self):
         """Returns a uid for this visitor scoped to this account"""
-        return "%s-%s" % (self.account.uuid, self.uuid)
+        return str("%s-%s" % (self.account.uuid, self.uuid))
 
     @classmethod
     def get_or_create(cls, account, visitor_uuid=None):
