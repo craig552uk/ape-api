@@ -16,15 +16,12 @@ def append_payload(payload, data):
     if 'sessions'   not in data: data['sessions']   = list()
 
     if len(data['sessions']) == 0:
-        print "Adding first Session"
         data['sessions'].append(new_session(payload))
     else:
         last_session = data['sessions'][-1]
         if payload_is_part_of_session(payload, last_session):
-            print "Updating last Session"
             data['sessions'][-1] = update_session(payload, last_session)
         else:
-            print "Adding new Session"
             data['sessions'].append(new_session(payload))
 
     # Set derived values
