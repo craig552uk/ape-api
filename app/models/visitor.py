@@ -8,6 +8,7 @@ import shelve
 from datetime import datetime as DT
 from app import app, db
 from app.models import Account
+from app.helpers import visitor_data_manager as VDM
 
 class Visitor(db.Model):
     __tablename__ = "visitors"
@@ -22,9 +23,10 @@ class Visitor(db.Model):
 
     def store_payload(self, payload):
         """Adds payload to the stored data for this visitor, returns updated visitor data"""
+        # TODO use shelve for dev & test, production nosql for live
         s = shelve.open(app.config.get('SHELVE_PATH'))
         data = s.get(self.guid(), dict())
-        # data = Visitor.insert_payload_to_data(data, payload) # TODO
+        data = VDM.append_payload(payload, data)
         s[self.guid()] = data
         s.close()
         return data
