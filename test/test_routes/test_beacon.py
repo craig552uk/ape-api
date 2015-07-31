@@ -21,7 +21,7 @@ params = {
     'language':       'lg', # Browser language
     'placeholders':   'pc', # The set of Placeholder ids on this page
     'prefix':         'px', # Placeholder class prefix
-    'screen_colour':  'sc', # Screen colour depth
+    'screen_color':   'sc', # Screen colour depth
     'screen_height':  'sh', # Screen height
     'screen_width':   'sw', # Screen width
     'script_version': 'vr', # Version number of this script
@@ -165,14 +165,14 @@ class TestRoutes(unittest.TestCase):
         self.assertIn('prefix', data['args'])
         self.assertEqual(value, data['args']['prefix'])
 
-    def test_beacon_screen_colour(self):
+    def test_beacon_screen_color(self):
         value = 64
-        data = self.get_beacon(screen_colour=value)
-        self.assertIn('screen_colour', data['args'])
-        self.assertEqual(value, data['args']['screen_colour'])
+        data = self.get_beacon(screen_color=value)
+        self.assertIn('screen_color', data['args'])
+        self.assertEqual(value, data['args']['screen_color'])
 
         # Bad Value
-        data = self.get_beacon(screen_colour="foo")
+        data = self.get_beacon(screen_color="foo")
         self.assertEqual(0, data['args']['screen_height'])
 
     def test_beacon_screen_height(self):

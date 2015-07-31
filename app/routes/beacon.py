@@ -44,7 +44,7 @@ def beacon():
     args['language']        = request.args.get('lg', "")      # Browser language
     args['placeholders']    = request.args.get('pc', "")      # The set of Placeholder ids on this page
     args['prefix']          = request.args.get('px', "ape")   # Placeholder class prefix
-    args['screen_colour']   = request.args.get('sc', 0)       # Screen colour depth
+    args['screen_color']    = request.args.get('sc', 0)       # Screen colour depth
     args['screen_height']   = request.args.get('sh', 0)       # Screen height
     args['screen_width']    = request.args.get('sw', 0)       # Screen width
     args['script_version']  = request.args.get('vr', "0.0.0") # Version number of this script
@@ -56,8 +56,8 @@ def beacon():
     try:    args['screen_height'] = int(args['screen_height'])
     except: args['screen_height'] = 0
 
-    try:    args['screen_colour'] = int(args['screen_colour'])
-    except: args['screen_colour'] = 0
+    try:    args['screen_color']  = int(args['screen_color'])
+    except: args['screen_color']  = 0
 
     try:    args['timestamp']     = float(args['timestamp'])
     except: args['timestamp']     = epoch()
