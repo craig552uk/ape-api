@@ -39,6 +39,7 @@ def new_session(payload):
     session['session_end']      = payload.get('timestamp', epoch())
     session['session_duration'] = 0
     session['request_address']  = payload.get('request_address', None)
+    # TODO country, city etc from ip address
     session['user_agent']       = payload.get('user_agent', None)
     session['screen_color']     = payload.get('screen_color', None)
     session['screen_width']     = payload.get('screen_width', None)
