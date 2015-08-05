@@ -5,46 +5,17 @@
 
 import unittest
 import datetime as DT
-from time import time as epoch
 from app import db
 from app.models import Rule
+from app.helpers import factory
 
 class TestModelRule(unittest.TestCase):
 
     def setUp(self):
-        # Test data
-        pv = dict()
-        pv['page_url']         = "http://example.com"
-        pv['referrer_url']     = "http://example.com"
-        pv['page_title']       = "Foo Bar"
-        pv['timestamp']        = epoch()
-        pv['language']         = "en-GB"
-        pv['event']            = "pageload"
-        pv['placeholders']     = ['a', 'b', 'c`']
-        pv['prefix']           = "ape"
-        pv['script_version']   = "0.0.0"
-
-        sn = dict()
-        sn['session_start']    = epoch()
-        sn['session_end']      = epoch()
-        sn['session_duration'] = 100
-        sn['request_address']  = "http://example.com"
-        sn['user_agent']       = "FooBar"
-        sn['screen_color']     = 256
-        sn['screen_width']     = 1000
-        sn['screen_height']    = 1000
-        sn['pageviews']        = [pv]
-        sn['pageview_count']   = 1
-
-        data = dict()
-        data['visitor_id']     = ""
-        data['account_id']     = ""
-        data['sessions']       = {0:sn}
-        data['sessions_count'] = 1
-
-        self.pageview = pv
-        self.session  = sn
-        self.data     = data
+        # Generate data
+        self.data     = factory.make_data()
+        self.session  = self.data['sessions'][0]
+        self.pageview = self.session['pageviews'][0]
 
 
     def test_rule_crud(self):
