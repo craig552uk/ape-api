@@ -66,3 +66,9 @@ class TestModelRelationships(unittest.TestCase):
         db.session.commit()
         self.assertIn(rule, segment.rules)
         self.assertEqual(rule.segment, segment)
+
+        # Add segment to component
+        component.segment = segment
+        db.session.commit()
+        self.assertEqual(component.segment, segment)
+        self.assertIn(component, segment.components)
