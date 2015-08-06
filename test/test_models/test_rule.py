@@ -13,8 +13,8 @@ class TestModelRule(unittest.TestCase):
 
     def setUp(self):
         # Generate data
-        self.data     = factory.make_data()
-        self.session  = self.data['sessions'][0]
+        self.visitor_data     = factory.make_visitor_data()
+        self.session  = self.visitor_data['sessions'][0]
         self.pageview = self.session['pageviews'][0]
 
 
@@ -61,41 +61,41 @@ class TestModelRule(unittest.TestCase):
 
 
     def test_apply(self):
-        rule_1 = Rule(field='sessions_count', comparator="MATCH", value=self.data['sessions_count'])
-        rule_2 = Rule(field='foo',            comparator="MATCH", value=self.data['sessions_count'])
+        rule_1 = Rule(field='sessions_count', comparator="MATCH", value=self.visitor_data['sessions_count'])
+        rule_2 = Rule(field='foo',            comparator="MATCH", value=self.visitor_data['sessions_count'])
         rule_3 = Rule(field='sessions_count', comparator="MATCH", value="Foo")
 
-        self.assertTrue(rule_1.apply(self.data))
-        self.assertFalse(rule_2.apply(self.data))
-        self.assertFalse(rule_3.apply(self.data))
+        self.assertTrue(rule_1.apply(self.visitor_data))
+        self.assertFalse(rule_2.apply(self.visitor_data))
+        self.assertFalse(rule_3.apply(self.visitor_data))
 
         rule_1 = Rule(field='session_start', comparator="MATCH", value=self.session['session_start'])
         rule_2 = Rule(field='foo',           comparator="MATCH", value=self.session['session_start'])
         rule_3 = Rule(field='session_start', comparator="MATCH", value="Foo")
 
-        self.assertTrue(rule_1.apply(self.data))
-        self.assertFalse(rule_2.apply(self.data))
-        self.assertFalse(rule_3.apply(self.data))
+        self.assertTrue(rule_1.apply(self.visitor_data))
+        self.assertFalse(rule_2.apply(self.visitor_data))
+        self.assertFalse(rule_3.apply(self.visitor_data))
 
         rule_1 = Rule(field='page_url', comparator="MATCH", value=self.pageview['page_url'])
         rule_2 = Rule(field='foo',      comparator="MATCH", value=self.pageview['page_url'])
         rule_3 = Rule(field='page_url', comparator="MATCH", value="Foo")
 
-        self.assertTrue(rule_1.apply(self.data))
-        self.assertFalse(rule_2.apply(self.data))
-        self.assertFalse(rule_3.apply(self.data))
+        self.assertTrue(rule_1.apply(self.visitor_data))
+        self.assertFalse(rule_2.apply(self.visitor_data))
+        self.assertFalse(rule_3.apply(self.visitor_data))
 
 
     def test_apply_to_data(self):
-        rule_1 = Rule(field='visitor_id',     comparator="MATCH", value=self.data['visitor_id'])
-        rule_2 = Rule(field='account_id',     comparator="MATCH", value=self.data['account_id'])
-        rule_3 = Rule(field='sessions',       comparator="MATCH", value=self.data['sessions'])
-        rule_4 = Rule(field='sessions_count', comparator="MATCH", value=self.data['sessions_count'])
+        rule_1 = Rule(field='visitor_id',     comparator="MATCH", value=self.visitor_data['visitor_id'])
+        rule_2 = Rule(field='account_id',     comparator="MATCH", value=self.visitor_data['account_id'])
+        rule_3 = Rule(field='sessions',       comparator="MATCH", value=self.visitor_data['sessions'])
+        rule_4 = Rule(field='sessions_count', comparator="MATCH", value=self.visitor_data['sessions_count'])
 
-        self.assertFalse(rule_1.apply_to_data(self.data))
-        self.assertFalse(rule_2.apply_to_data(self.data))
-        self.assertFalse(rule_3.apply_to_data(self.data))
-        self.assertTrue(rule_4.apply_to_data(self.data))
+        self.assertFalse(rule_1.apply_to_data(self.visitor_data))
+        self.assertFalse(rule_2.apply_to_data(self.visitor_data))
+        self.assertFalse(rule_3.apply_to_data(self.visitor_data))
+        self.assertTrue(rule_4.apply_to_data(self.visitor_data))
 
 
     def test_apply_to_session(self):

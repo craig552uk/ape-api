@@ -56,7 +56,9 @@ class Rule(db.Model):
 
     def compare(self, field_value):
         """Compare configured value to field value using comparator"""
-        test_value = self.value # Easier to read variable name
+        # Convert to unicode for safe(ish) comparison
+        test_value  = unicode(self.value)
+        field_value = unicode(field_value)
         try:
             if   self.comparator == "MATCH":          return test_value == field_value
             elif self.comparator == "NOT_MATCH":      return test_value != field_value

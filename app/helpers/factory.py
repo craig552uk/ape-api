@@ -34,7 +34,7 @@ def make_session():
     sn['pageview_count']   = 1
     return sn
 
-def make_data():
+def make_visitor_data():
     """Return a valid visitor data object"""
     data = dict()
     data['visitor_id']     = ""

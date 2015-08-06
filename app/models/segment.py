@@ -18,9 +18,29 @@ class Segment(db.Model):
 
     rules = relationship("Rule", backref="segment")
 
-    def matches_data(self, visitor_data): # TODO
+    def matches_data(self, visitor_data):
         """Return true if segment rules accept visitor_data, return false otherwise"""
-        pass
+        results = dict()
+
+        # Apply each child rule to visitor_data
+        for rule in self.rules:
+            # Logical OR results within the same group
+            gid = rule.group_id
+            results[gid] = results.get(gid, False) or rule.apply(visitor_data)
+
+        # Logical AND results between groups
+        return False not in results.values()
+
+    def rules_in_groups(self):
+        """
+            Return dict of rules grouped by group id.
+            Useful for presenting rules in views
+        """
+        groups = dict()
+        for rule in self.rules:
+            gid = rule.group_id
+            groups[gid] = groups.get(gid, list()) + [rule]
+        return groups
 
     def __repr__(self):
         return 'Segment[%r] %r, %r, %r' % (self.id, self.name, self.created_at.isoformat(), self.updated_at.isoformat())
