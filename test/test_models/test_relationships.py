@@ -42,13 +42,19 @@ class TestModelRelationships(unittest.TestCase):
         self.assertIn(placeholder, account.placeholders)
         self.assertEqual(placeholder.account, account)
 
-        # Add component to placeholder
-        component = Component(name="Component Foo")
-        placeholder.components.append(component)
-        db.session.add(component)
+        # Add components to placeholder
+        component_0 = Component(name="Component Foo", index=0)
+        component_1 = Component(name="Component Foo", index=1)
+        component_2 = Component(name="Component Foo", index=2)
+        placeholder.components.append(component_2)
+        placeholder.components.append(component_1)
+        placeholder.components.append(component_0)
         db.session.commit()
-        self.assertIn(component, placeholder.components)
-        self.assertEqual(component.placeholder, placeholder)
+        self.assertIn(component_0, placeholder.components)
+        self.assertEqual(component_0.placeholder, placeholder)
+        self.assertEqual(component_0, placeholder.components[0])
+        self.assertEqual(component_1, placeholder.components[1])
+        self.assertEqual(component_2, placeholder.components[2])
 
         # Add segment to account
         segment = Segment(name="Segment Foo")
@@ -68,7 +74,7 @@ class TestModelRelationships(unittest.TestCase):
         self.assertEqual(rule.segment, segment)
 
         # Add segment to component
-        component.segment = segment
+        component_0.segment = segment
         db.session.commit()
-        self.assertEqual(component.segment, segment)
-        self.assertIn(component, segment.components)
+        self.assertEqual(component_0.segment, segment)
+        self.assertIn(component_0, segment.components)

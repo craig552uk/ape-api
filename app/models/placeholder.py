@@ -18,7 +18,7 @@ class Placeholder(db.Model):
     created_at = db.Column(db.DateTime, default=DT.now())
     updated_at = db.Column(db.DateTime, default=DT.now(), onupdate=DT.now())
 
-    components = relationship("Component", backref="placeholder")
+    components = relationship("Component", backref="placeholder", order_by="Component.index")
 
     def get_component_for_segments(self, segments): # TODO
         """Return correct conponent for this segment set"""
