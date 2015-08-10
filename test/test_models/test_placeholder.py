@@ -6,7 +6,7 @@
 import unittest
 import datetime as DT
 from app import db
-from app.models import Placeholder
+from app.models import Placeholder, Segment, Component
 
 class TestModelPlaceholder(unittest.TestCase):
 
@@ -38,3 +38,26 @@ class TestModelPlaceholder(unittest.TestCase):
         db.session.delete(placeholder)
         count = Placeholder.query.filter_by(name='Bar').count()
         self.assertEqual(0, count)
+
+    def test_get_component_for_segments(self):
+        segment_1 = Segment()
+        segment_2 = Segment()
+        segment_3 = Segment()
+        segment_4 = Segment()
+        component_1 = Component(index=1, segment=segment_1)
+        component_2 = Component(index=2, segment=segment_2)
+        component_3 = Component(index=3, segment=segment_3)
+        placeholder = Placeholder()
+        placeholder.components.append(component_3)
+        placeholder.components.append(component_2)
+        placeholder.components.append(component_1)
+        db.session.add(placeholder)
+        db.session.commit()
+
+        self.assertEqual(component_1, placeholder.get_component_for_segments([segment_1]))
+        self.assertEqual(component_1, placeholder.get_component_for_segments([segment_1, segment_2]))
+        self.assertEqual(component_2, placeholder.get_component_for_segments([segment_4, segment_2]))
+        self.assertEqual(component_2, placeholder.get_component_for_segments([segment_2]))
+        self.assertIsNone(placeholder.get_component_for_segments([segment_4]))
+        self.assertIsNone(placeholder.get_component_for_segments([]))
+

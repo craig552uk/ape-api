@@ -20,9 +20,10 @@ class Placeholder(db.Model):
 
     components = relationship("Component", backref="placeholder", order_by="Component.index")
 
-    def get_component_for_segments(self, segments): # TODO
-        """Return correct conponent for this segment set"""
-        pass
+    def get_component_for_segments(self, segments):
+        """Return correct component for this segment set"""
+        for component in self.components:
+            if component.segment in segments: return component
 
     def __repr__(self):
         return 'Placeholder[%r] %r, %r, %r, %r' % \

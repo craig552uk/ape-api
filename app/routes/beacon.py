@@ -105,8 +105,9 @@ def beacon():
                 for placeholder in account.placeholders:
                     key = "%s-%s" % (args['prefix'], placeholder.uuid)
                     component = placeholder.get_component_for_segments(segments)
-                    payload['components'][key] = dict()
-                    payload['components'][key]['content'] = component.markup
+                    if component:
+                        payload['components'][key] = dict()
+                        payload['components'][key]['content'] = component.markup
 
     return jsonp_response(payload)
     
