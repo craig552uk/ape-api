@@ -14,6 +14,7 @@ import time
 class Timer(object):
     def __init__(self, name="", verbose=False):
         self.name = name
+        self.verbose = verbose
 
     def __enter__(self):
         self.start = time.time()
