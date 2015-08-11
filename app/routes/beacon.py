@@ -100,6 +100,10 @@ def beacon():
                 # Build list of applicable segments for visitor
                 visitor_segments = [s for s in account.segments if s.matches_data(visitor_data)]
 
+                if args['debug']:
+                    # Add list of segment ids to payload
+                    payload['segment_names'] = [s.name for s in visitor_segments]
+
                 # Format components for json response
                 payload['components'] = dict()
                 for placeholder in account.placeholders:
