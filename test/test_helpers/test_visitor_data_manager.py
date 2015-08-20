@@ -45,7 +45,7 @@ class TestVisitorDataManager(unittest.TestCase):
         data_1 = VDM.append_payload(payload_1, dict())
         self.assertIsInstance(data_1['visitor_id'], str)
         self.assertIsInstance(data_1['account_id'], str)
-        self.assertIsInstance(data_1['sessions'], list)
+        self.assertIsInstance(data_1['sessions'], dict)
         self.assertEqual(data_1['session_count'], 1)
         self.assertEqual(len(data_1['sessions']), 1)
         self.assertEqual(len(data_1['sessions'][0]['pageviews']), 1)

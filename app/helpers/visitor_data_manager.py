@@ -13,16 +13,18 @@ def append_payload(payload, data):
     # Set intial values if required
     if 'visitor_id' not in data: data['visitor_id'] = payload.get('visitor_id', None)
     if 'account_id' not in data: data['account_id'] = payload.get('account_id', None)
-    if 'sessions'   not in data: data['sessions']   = list()
+    if 'sessions'   not in data: data['sessions']   = dict()
 
-    if len(data['sessions']) == 0:
-        data['sessions'].append(new_session(payload))
+    num_sessions = len(data['sessions'])
+
+    if num_sessions == 0:
+        data['sessions'][0] = new_session(payload)
     else:
-        last_session = data['sessions'][-1]
+        last_session = data['sessions'][num_sessions-1]
         if payload_is_part_of_session(payload, last_session):
-            data['sessions'][-1] = update_session(payload, last_session)
+            data['sessions'][num_sessions-1] = update_session(payload, last_session)
         else:
-            data['sessions'].append(new_session(payload))
+            data['sessions'][num_sessions] = new_session(payload)
 
     # Set derived values
     data['session_count'] = len(data['sessions'])
