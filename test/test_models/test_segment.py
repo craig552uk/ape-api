@@ -49,6 +49,11 @@ class TestModelSegment(unittest.TestCase):
         true_rule_2  = Rule(group_id=2, field='sessions_count', comparator="MATCH", value=self.visitor_data['sessions_count'])
         false_rule_2 = Rule(group_id=2, field='sessions_count', comparator="MATCH", value=100)
         
+        # False
+        segment.rules = []
+        self.assertFalse(segment.matches_data(self.visitor_data))
+        
+
         # True
         segment.rules = [true_rule_1]
         self.assertTrue(segment.matches_data(self.visitor_data))

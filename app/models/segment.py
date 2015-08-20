@@ -22,6 +22,9 @@ class Segment(db.Model):
         """Return true if segment rules accept visitor_data, return false otherwise"""
         results = dict()
 
+        # Always false if no rules defined
+        if not self.rules: return False
+        
         # Apply each child rule to visitor_data
         for rule in self.rules:
             # Logical OR results within the same group
