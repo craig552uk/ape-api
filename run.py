@@ -24,7 +24,7 @@ def db_seed():
     fake = Factory.create()
 
     for _ in range(0,3):
-        account = Account(name=fake.company())
+        account = Account(name=fake.company(), sites=["foo.com"])
         db.session.add(account)
     
         for _ in range(0,3):
