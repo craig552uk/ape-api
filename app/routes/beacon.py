@@ -90,6 +90,7 @@ def beacon():
 
             # Get/create visitor record for this customer
             visitor = Visitor.get_or_create(account, args['visitor_id'])
+            payload['visitor_id'] = visitor.uuid
 
             # Update visitor data with payload
             visitor_data = visitor.store_payload(args)

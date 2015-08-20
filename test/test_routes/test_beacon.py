@@ -16,7 +16,7 @@ params = {
     'referrer_url':   'dr', # Referrer URL if set
     'page_title':     'dt', # Page title
     'event':          'ev', # Event
-    'account_id':    'id', # The customer account ID
+    'account_id':     'id', # The customer account ID
     'timestamp':      'ld', # Event timestamp
     'language':       'lg', # Browser language
     'placeholders':   'pc', # The set of Placeholder ids on this page
@@ -35,8 +35,8 @@ class TestRoutes(unittest.TestCase):
     def get_beacon(self, **kwargs):
         """ helpful wrapper for querying beacon"""
         # Use defaults if not provided
-        if not 'debug' in kwargs.keys():       kwargs['debug']       = True
-        if not 'page_url' in kwargs.keys():    kwargs['page_url']    = "http://example.com"
+        if not 'debug' in      kwargs.keys(): kwargs['debug']      = True
+        if not 'page_url' in   kwargs.keys(): kwargs['page_url']   = "http://example.com"
         if not 'account_id' in kwargs.keys(): kwargs['account_id'] = "foo-bar"
 
         # Map frindly params to short names
@@ -200,3 +200,8 @@ class TestRoutes(unittest.TestCase):
         data = self.get_beacon(script_version=value)
         self.assertIn('script_version', data['args'])
         self.assertEqual(value, data['args']['script_version'])
+
+    def test_beacon_payload_components(self): # TODO
+        pass
+        # Configure segments, placeholders & components
+        # Ensure correct response from beacon
