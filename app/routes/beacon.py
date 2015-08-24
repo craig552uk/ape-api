@@ -12,7 +12,7 @@ from werkzeug.exceptions import HTTPException, BadRequest, InternalServerError, 
 
 def jsonp_response(payload, code=200):
     """Make and return a jsonp response object"""
-    body = '_ape.callback' + json.dumps(payload, indent=2) + ')'
+    body = '_ape.callback(' + json.dumps(payload, indent=2) + ')'
     response = make_response(body, code)
     response.headers['Content-Type'] = "application/javascript;charset=utf-8"
     return response
