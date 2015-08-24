@@ -6,11 +6,14 @@
 import os
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask_json import FlaskJSON
 
 # The flask app
 app = Flask(__name__)
 app.config.from_object('config_default')
 
+# Enable JSON responses
+FlaskJSON(app)
 
 # Override default config with file specified in environment variable
 if os.environ.get('FLASK_APP_CONFIG'):
