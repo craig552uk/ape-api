@@ -7,7 +7,7 @@
 import home
 import beacon
 import api.root
-# import api.account
+import api.account
 # import api.component
 # import api.placeholder
 # import api.rule
