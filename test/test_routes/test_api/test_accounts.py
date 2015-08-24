@@ -7,6 +7,7 @@ import unittest
 from app import app
 from . import test_json_response_format
 
+
 class TestAPIAccountRoutes(unittest.TestCase):
 
     def setUp(self):

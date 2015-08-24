@@ -7,6 +7,7 @@ from app import app, db
 from app.models import *
 from flask_json import as_json
 
+
 @app.route('/api/1/accounts/', methods=['GET'])
 @as_json
 def account_list():

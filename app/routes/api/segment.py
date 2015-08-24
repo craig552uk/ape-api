@@ -5,28 +5,34 @@
 
 from app import app, db
 from app.models import *
+from flask_json import as_json
 
 
 @app.route('/api/1/segments/', methods=['GET'])
+@as_json
 def segment_list():
-    return "GET: List all segments"
+    return {"message": "GET: List all segments"}
 
 
 @app.route('/api/1/segments/', methods=['POST'])
+@as_json
 def segment_add():
-    return "POST: Add an segment"
+    return {"message": "POST: Add an segment"}
 
 
 @app.route('/api/1/segments/<segment_id>/', methods=['GET'])
+@as_json
 def segment_show(segment_id):
-    return "GET: Show %s" % segment_id
+    return {"message": "GET: Show %s" % segment_id}
 
 
 @app.route('/api/1/segments/<segment_id>/', methods=['POST'])
+@as_json
 def segment_update(segment_id):
-    return "POST: Update %s" % segment_id
+    return {"message": "POST: Update %s" % segment_id}
 
 
 @app.route('/api/1/segments/<segment_id>/', methods=['DELETE'])
+@as_json
 def segment_delete(segment_id):
-    return "DELETE: Delete %s" % segment_id
+    return {"message": "DELETE: Delete %s" % segment_id}
