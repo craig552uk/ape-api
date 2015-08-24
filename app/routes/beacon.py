@@ -108,16 +108,20 @@ def beacon():
                 # Format components for json response
                 payload['components'] = dict()
                 for placeholder in account.placeholders:
-                    key = "%s-%s" % (args['prefix'], placeholder.uuid)
-                    component = placeholder.get_component_for_segments(segments)
-                    if component:
-                        payload['components'][key] = dict()
-                        payload['components'][key]['content'] = component.markup
+
+                    # Ignore unrequested placeholders
+                    if placeholder.uuid in args['placeholder_ids']:
+                       
+                        key = "%s-%s" % (args['prefix'], placeholder.uuid)
+                        component = placeholder.get_component_for_segments(visitor_segments)
+                        if component:
+                            payload['components'][key] = dict()
+                            payload['components'][key]['content'] = component.markup
 
     return jsonp_response(payload)
     
 
 @app.errorhandler(HTTPException)
 def handle_error(e):
-    payload  = {'error': e.description, 'name':  e.name}
+    payload  = {'error': e.name, 'code': e.code, 'description':  e.description}
     return jsonp_response(payload, e.code)
