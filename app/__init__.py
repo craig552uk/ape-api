@@ -4,6 +4,12 @@
 # Flask apps and global objects
 
 import os
+import sys
+
+# Add (non-pip) 3rd party libraries to sys path
+basepath = os.path.abspath(os.path.dirname(__file__))
+sys.path.insert(0, os.path.join(basepath, "lib"))
+
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask_json import FlaskJSON
