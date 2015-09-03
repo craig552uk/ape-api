@@ -75,7 +75,8 @@ class TestBeaconIntegration(unittest.TestCase):
     def test_beacon_valid_request_response(self):
         # Invalid account id returns empty response
         r = self.get_beacon(account_id="foo", page_url="http://foo.com/bar")
-        self.assertEqual(dict(), r)
+        self.assertIsInstance(r, dict)
+        self.assertEqual(r.keys(), ['status'])
 
         # Create inactive account
         account = Account(name="Foo Bar", sites=["foo.com"], enabled=False)
@@ -84,7 +85,8 @@ class TestBeaconIntegration(unittest.TestCase):
 
         # Inactive account returns empty response
         r = self.get_beacon(account_id=account.uuid, page_url="http://foo.com/bar")
-        self.assertEqual(dict(), r)
+        self.assertIsInstance(r, dict)
+        self.assertEqual(r.keys(), ['status'])
 
         # Activate account
         account.enabled = True
@@ -93,7 +95,8 @@ class TestBeaconIntegration(unittest.TestCase):
 
         # Active account with bad url returns empty response
         r = self.get_beacon(account_id=account.uuid, page_url="http://bad.com/bar")
-        self.assertEqual(dict(), r)
+        self.assertIsInstance(r, dict)
+        self.assertEqual(r.keys(), ['status'])
 
         # Active account with good url returns new visitor id
         r = self.get_beacon(account_id=account.uuid, page_url="http://foo.com/bar")

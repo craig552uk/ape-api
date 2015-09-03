@@ -50,20 +50,20 @@ class TestRoutes(unittest.TestCase):
         args = {params[key]: val for key,val in kwargs.items()}
         r = self.app.get('/beacon.js?' + urlencode(args))
 
-        self.assertEqual(r.mimetype, "application/javascript")
+        self.assertEqual(r.mimetype, "application/json")
         self.assertEqual(r.status_code, 200)
         return self.parse_jsonp(r.data)
 
     def test_do_not_track(self):
         # Should respect Do Not Track header
         r = self.app.get('/beacon.js?', headers=[('DNT', 'true')])
-        self.assertEqual(r.mimetype, "application/javascript")
+        self.assertEqual(r.mimetype, "application/json")
         self.assertEqual(r.status_code, 409) # Conflict
 
     def test_beacon_page_url(self):
         # Without page_url
         r = self.app.get('/beacon.js?id=foo')
-        self.assertEqual(r.mimetype, "application/javascript")
+        self.assertEqual(r.mimetype, "application/json")
         self.assertEqual(r.status_code, 400) # Bad Request
 
         value = "http://example.com?foo=bar#baz"
@@ -94,7 +94,7 @@ class TestRoutes(unittest.TestCase):
     def test_beacon_customer_id(self):
         # Without account_id
         r = self.app.get('/beacon.js?dl=foo')
-        self.assertEqual(r.mimetype, "application/javascript")
+        self.assertEqual(r.mimetype, "application/json")
         self.assertEqual(r.status_code, 400) # Bad Request
 
         value = "foo-bar"

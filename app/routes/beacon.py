@@ -3,21 +3,16 @@
 # Author: Craig Russell <craig@craig-russell.co.uk>
 # URL routes for apps
 
-import simplejson as json
 from time import time as epoch
 from app import app, db
 from app.models import *
-from flask import request, make_response
+from flask import request
+from flask_json import as_json
 from werkzeug.exceptions import HTTPException, BadRequest, InternalServerError, Conflict
 
-def jsonp_response(payload, code=200):
-    """Make and return a jsonp response object"""
-    body = '_ape.callback(' + json.dumps(payload, indent=2) + ')'
-    response = make_response(body, code)
-    response.headers['Content-Type'] = "application/javascript;charset=utf-8"
-    return response
 
 @app.route('/beacon.js')
+@as_json
 def beacon():
 
     # Respect Do Not Track
@@ -118,10 +113,10 @@ def beacon():
                             payload['components'][key] = dict()
                             payload['components'][key]['content'] = component.markup
 
-    return jsonp_response(payload)
+    return payload
     
 
 @app.errorhandler(HTTPException)
+@as_json
 def handle_error(e):
-    payload  = {'error': e.name, 'code': e.code, 'description':  e.description}
-    return jsonp_response(payload, e.code)
+    return {'error': e.name, 'code': e.code, 'description':  e.description}, e.code
