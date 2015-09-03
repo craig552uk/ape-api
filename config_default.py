@@ -19,6 +19,9 @@ SHELVE_PATH = os.path.join(basepath, "var", "shelve.db")
 JSON_AS_ASCII = False
 JSON_SORT_KEYS = True
 JSONIFY_PRETTYPRINT_REGULAR = True
+JSON_DATETIME_FORMAT = "%Y-%m-%d %X"
+JSON_DATE_FORMAT     = "%Y-%m-%d"
+JSON_TIME_FORMAT     = "%X"
 
 # Required to ensure HTTP exception handers work in debug & test
 # See: http://flask.pocoo.org/docs/0.10/api/#flask.Flask.trap_http_exception
