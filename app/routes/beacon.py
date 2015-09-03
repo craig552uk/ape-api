@@ -12,7 +12,7 @@ from werkzeug.exceptions import HTTPException, BadRequest, InternalServerError, 
 
 
 @app.route('/beacon.js')
-@as_json
+@as_json # TODO enhance to support jsonp
 def beacon():
 
     # Respect Do Not Track
@@ -61,8 +61,8 @@ def beacon():
     except: args['debug']         = False
 
     # Ensure page url and customer id are provided
-    if not args['page_url']:   raise BadRequest("Bad Request: Value required for page url (dl)")
-    if not args['account_id']: raise BadRequest("Bad Request: Value required for customer id (id)")
+    if not args['page_url']:   raise BadRequest("Value required for page url (dl)")
+    if not args['account_id']: raise BadRequest("Value required for customer id (id)")
 
     # Extract placeholder identifiers
     placeholders = args['placeholders'].split(' ')
@@ -119,4 +119,5 @@ def beacon():
 @app.errorhandler(HTTPException)
 @as_json
 def handle_error(e):
-    return {'error': e.name, 'code': e.code, 'description':  e.description}, e.code
+    error = dict(title=e.name, status=str(e.code), detail=e.description)
+    return {'error': error}, e.code
