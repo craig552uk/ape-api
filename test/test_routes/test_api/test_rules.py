@@ -5,8 +5,8 @@
 
 import unittest
 from app import app
-from . import test_json_response_format
-
+from . import assert_success_response, assert_error_response
+from werkzeug.exceptions import NotFound
 
 class TestAPIRulesRoutes(unittest.TestCase):
 
@@ -15,25 +15,20 @@ class TestAPIRulesRoutes(unittest.TestCase):
 
     def test_api_rules_list(self):
         r = self.app.get('/api/1/segments/foobar/rules/')
-        test_json_response_format(self, r)
         self.assertEqual(200, r.status_code)
 
     def test_api_rules_add(self):
         r = self.app.post('/api/1/segments/foobar/rules/')
-        test_json_response_format(self, r)
         self.assertEqual(200, r.status_code)
 
     def test_api_rules_show(self):
         r = self.app.get('/api/1/segments/foobar/rules/foobaz/')
-        test_json_response_format(self, r)
         self.assertEqual(200, r.status_code)
 
     def test_api_rules_update(self):
         r = self.app.post('/api/1/segments/foobar/rules/foobaz/')
-        test_json_response_format(self, r)
         self.assertEqual(200, r.status_code)
 
     def test_api_rules_delete(self):
         r = self.app.delete('/api/1/segments/foobar/rules/foobaz/')
-        test_json_response_format(self, r)
         self.assertEqual(200, r.status_code)
