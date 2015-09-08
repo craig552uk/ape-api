@@ -57,3 +57,17 @@ class TestModelAccount(unittest.TestCase):
         self.assertFalse(account.url_in_sites("https://dummy.com"))
         self.assertFalse(account.url_in_sites("http://dummy.com/foo/bar"))
         self.assertFalse(account.url_in_sites("https://dummy.com/foo/bar"))
+
+    def test_account_to_dict(self): # TODO
+        account = Account(name='Foo', sites=['example.com', 'foo-bar.org'])
+        db.session.add(account)
+        db.session.commit()
+        d = account.to_dict()
+        self.assertEqual(d.get('type'), "account")
+        self.assertEqual(d.get('id'), account.id)
+        self.assertEqual(d.get('name'), account.name)
+        self.assertEqual(d.get('uuid'), account.uuid)
+        self.assertEqual(d.get('sites'), account.sites)
+        self.assertEqual(d.get('enabled'), account.enabled)
+        self.assertEqual(d.get('created_at'), account.created_at)
+        self.assertEqual(d.get('updated_at'), account.updated_at)

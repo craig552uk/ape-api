@@ -33,6 +33,19 @@ class Account(db.Model):
             if url.startswith(site): return True
         return False
 
+    def to_dict(self):
+        """Dictionary representation"""
+        return {
+            'type'       : "account",
+            'id'         : self.id,
+            'name'       : self.name,
+            'uuid'       : self.uuid,
+            'sites'      : self.sites,
+            'enabled'    : self.enabled,
+            'created_at' : self.created_at,
+            'updated_at' : self.updated_at,
+        }
+
     def __repr__(self):
         return 'Account[%r] %r, %r, %r, %r, %r, %r' % \
             (self.id, self.name, self.uuid, self.sites, self.enabled, self.created_at.isoformat(), self.updated_at.isoformat())
