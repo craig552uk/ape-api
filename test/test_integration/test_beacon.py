@@ -48,29 +48,25 @@ class TestBeaconIntegration(unittest.TestCase):
         return self.parse_jsonp(r.data)
 
     def test_beacon_bad_request_response(self):
+
+        def assert_bad_request_error(r):
+            self.assertIn('status', r.keys())
+            self.assertIn('error', r.keys())
+            self.assertIn('title', r['error'].keys())
+            self.assertIn('status', r['error'].keys())
+            self.assertIn('detail', r['error'].keys())
+            self.assertEqual("Bad Request", r['error']['title'])
+            self.assertEqual("400", r['error']['status'])
+            self.assertEqual(400, r['status'])
+
         # Empty request
-        r = self.get_beacon()
-        self.assertIn('error', r.keys())
-        self.assertIn('code', r.keys())
-        self.assertIn('description', r.keys())
-        self.assertEqual("Bad Request", r.get('error'))
-        self.assertEqual(400, r.get('code'))
+        assert_bad_request_error(self.get_beacon())
 
         # Bad Account id
-        r = self.get_beacon(account_id="foobar")
-        self.assertIn('error', r.keys())
-        self.assertIn('code', r.keys())
-        self.assertIn('description', r.keys())
-        self.assertEqual("Bad Request", r.get('error'))
-        self.assertEqual(400, r.get('code'))
+        assert_bad_request_error(self.get_beacon(account_id="foobar"))
 
         # Bad page url
-        r = self.get_beacon(page_url="foobar")
-        self.assertIn('error', r.keys())
-        self.assertIn('code', r.keys())
-        self.assertIn('description', r.keys())
-        self.assertEqual("Bad Request", r.get('error'))
-        self.assertEqual(400, r.get('code'))
+        assert_bad_request_error(self.get_beacon(page_url="foobar"))
 
     def test_beacon_valid_request_response(self):
         # Invalid account id returns empty response
