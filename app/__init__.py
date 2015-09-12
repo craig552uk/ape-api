@@ -19,7 +19,7 @@ app = Flask(__name__)
 app.config.from_object('config_default')
 
 # Enable JSON responses
-FlaskJSON(app)
+json_app = FlaskJSON(app)
 
 # Override default config with file specified in environment variable
 if os.environ.get('FLASK_APP_CONFIG'):

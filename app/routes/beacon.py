@@ -4,7 +4,7 @@
 # URL routes for apps
 
 from time import time as epoch
-from app import app, db
+from app import app, db, json_app
 from app.models import *
 from flask import request
 from flask_json import as_json
@@ -116,8 +116,16 @@ def beacon():
     return payload
     
 
+# TODO move exceptions to home.py or dedicated module
+
 @app.errorhandler(HTTPException)
 @as_json
 def handle_error(e):
     error = dict(title=e.name, status=str(e.code), detail=e.description)
     return {'error': error}, e.code
+
+
+@json_app.invalid_json_error
+@as_json
+def invalid_json_error(e):
+    raise BadRequest("Invalid JSON")

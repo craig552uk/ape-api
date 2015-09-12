@@ -20,11 +20,17 @@ def account_list():
 @app.route('/api/1/accounts/', methods=['POST'])
 @as_json
 def account_add():
-    data = request.args.get('data', dict())
+    data    = request.get_json() or dict()
+    name    = data.get('name', str())
+    sites   = data.get('sites', list())
+    enabled = data.get('enabled', True)
+    if not name: raise BadRequest("Name required")
 
-    # TODO
-    
-    return {"data": "POST: Add an account"}
+    account = Account(name=name, sites=sites, enabled=enabled)
+    db.session.add(account)
+    db.session.commit()
+    db.session.refresh(account)
+    return {"data": account.to_dict()}
 
 
 @app.route('/api/1/accounts/<account_id>/', methods=['GET'])
@@ -41,9 +47,15 @@ def account_update(account_id):
     account = Account.query.filter_by(id=account_id).first()
     if not account: raise NotFound("No account exists with the id '%s'" % account_id)
 
-    # TODO
-    
-    return {"data": "POST: Update %s" % account_id}
+    data            = request.get_json() or dict()
+    account.name    = data.get('name', str())
+    account.sites   = data.get('sites', list())
+    account.enabled = data.get('enabled', True)
+
+    db.session.add(account)
+    db.session.commit()
+    db.session.refresh(account)
+    return {"data": account.to_dict()}
 
 
 @app.route('/api/1/accounts/<account_id>/', methods=['DELETE'])
@@ -52,6 +64,6 @@ def account_delete(account_id):
     account = Account.query.filter_by(id=account_id).first()
     if not account: raise NotFound("No account exists with the id '%s'" % account_id)
     
-    # TODO
-    
-    return {"data": "DELETE: Delete %s" % account_id}
+    db.session.delete(account)
+    db.session.commit()
+    return {"data": "Account (%s) deleted" % account_id}
