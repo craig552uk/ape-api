@@ -7,13 +7,35 @@ from time import time as epoch
 from app import app, db, json_app
 from app.models import *
 from flask import request
-from flask_json import as_json
+from flask_json import as_json, json_response
 from werkzeug.exceptions import HTTPException, BadRequest, InternalServerError, Conflict
 
 
+# If set, response uses JSONP
+# TODO Use app config perhaps?
+JSONP_CALLBACK = None
+
+
+def jsonp_response(data, status=200, headers=None):
+    """
+        Build jsonp response if global var set
+        Return standard json response otherwise
+        # TODO move in to flask_json library
+    """
+    response = json_response(status_=status, headers_=headers, **data)
+    if (JSONP_CALLBACK):
+        response.status_code = 200
+        response.headers['Content-Type'] = "application/javascript"
+        response.data = JSONP_CALLBACK % response.data
+    return response
+
+
 @app.route('/beacon.js')
-@as_json # TODO enhance to support jsonp
 def beacon():
+   
+    # Global JSONP callback value ensures JSONP response
+    global JSONP_CALLBACK
+    JSONP_CALLBACK = "_ape.callback(%s)"
 
     # Respect Do Not Track
     if request.headers.get('DNT', False):
@@ -75,6 +97,7 @@ def beacon():
     # Return args in payload in debug mode
     if args['debug']:
         payload['args'] = args
+        # TODO Add timings to response
 
     # Get account
     account = Account.query.filter_by(uuid=args['account_id']).first()
@@ -112,17 +135,16 @@ def beacon():
                         if component:
                             payload['components'][key] = dict()
                             payload['components'][key]['content'] = component.markup
-
-    return payload
+    
+    return jsonp_response(payload)
     
 
 # TODO move exceptions to home.py or dedicated module
 
 @app.errorhandler(HTTPException)
-@as_json
 def handle_error(e):
     error = dict(title=e.name, status=str(e.code), detail=e.description)
-    return {'error': error}, e.code
+    return jsonp_response({'error': error}, e.code)
 
 
 @json_app.invalid_json_error
