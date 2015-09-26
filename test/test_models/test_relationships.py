@@ -18,13 +18,13 @@ class TestModelRelationships(unittest.TestCase):
         db.session.commit()
         self.assertEqual(account.users, [])
 
-        # Add user to account
+        # Add user to account (many-to-many relationship)
         user = User(name="User 1", email="a@b.com", password="passw0rd")
         account.users.append(user)
         db.session.add(user)
         db.session.commit()
         self.assertIn(user, account.users)
-        self.assertEqual(user.account, account)
+        self.assertIn(account, user.accounts)
 
         # Add visitor to account
         visitor = Visitor()

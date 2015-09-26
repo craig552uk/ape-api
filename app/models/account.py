@@ -8,6 +8,14 @@ from datetime import datetime as DT
 from sqlalchemy.orm import relationship
 from app import db
 
+
+# Table for many-to-many relationship between accounts and users
+accounts_users = db.Table('accounts_users', db.Model.metadata,
+    db.Column('account_id', db.Integer, db.ForeignKey('accounts.id')),
+    db.Column('user_id',    db.Integer, db.ForeignKey('users.id'))
+)
+
+
 class Account(db.Model):
     __tablename__ = "accounts"
 
@@ -19,7 +27,7 @@ class Account(db.Model):
     created_at = db.Column(db.DateTime, default=DT.now())
     updated_at = db.Column(db.DateTime, default=DT.now(), onupdate=DT.now())
 
-    users        = relationship("User", backref="account")
+    users        = relationship("User", backref="accounts", secondary=accounts_users)
     visitors     = relationship("Visitor", backref="account")
     placeholders = relationship("Placeholder", backref="account")
     segments     = relationship("Segment", backref="account")

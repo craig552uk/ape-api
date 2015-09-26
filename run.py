@@ -21,14 +21,15 @@ Objects in scope:
 def db_seed():
     """Rebuild the database populating it with seed data"""
     from faker import Factory
+    import random
     fake = Factory.create()
 
+    accounts = []
+
     for _ in range(0,3):
-        account = Account(name=fake.company(), sites=["foo.com"])
+        account = Account(name=fake.company(), sites=[fake.domain_name()])
+        accounts.append(account)
         db.session.add(account)
-    
-        for _ in range(0,3):
-            account.users.append(User(name=fake.name()))
 
         for _ in range(0,3):
             account.visitors.append(Visitor())
@@ -46,6 +47,11 @@ def db_seed():
 
             for name in ["City Break Banner", "Family Fun Banner", "Winter Sun Banner"]:
                 placeholder.components.append(Component(name=name))
+
+    for _ in range(0,10):
+        user = User(name=fake.name(), email=fake.email(), admin=random.choice([True, False]))
+        user.accounts.append(random.choice(accounts))
+        db.session.add(user)
 
     db.drop_all()
     db.create_all()

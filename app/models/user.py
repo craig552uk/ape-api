@@ -2,6 +2,12 @@
 #
 # Author: Craig Russell <craig@craig-russell.co.uk>
 # High-level models
+# 
+# When logging in to the portal a user can see all accounts to which they are associated
+# An admin user can see all accounts and can impersonate any other user
+# Only an admin can create users and accounts
+# An agency user will have visibility of all client accounts
+# A client user will have visibility of their own account only
 
 from datetime import datetime as DT
 from app import db
@@ -10,7 +16,6 @@ class User(db.Model):
     __tablename__ = "users"
     
     id         = db.Column(db.Integer, primary_key=True)
-    account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     name       = db.Column(db.String(80))
     email      = db.Column(db.String(80))
     password   = db.Column(db.String(218))
