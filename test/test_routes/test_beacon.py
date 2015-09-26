@@ -32,13 +32,6 @@ class TestRoutes(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client()
 
-    def parse_jsonp(self, jsonp):
-        """Unpack jsonp response"""
-        data = jsonp.lstrip('_ape.callback(').rstrip(')')
-        data = json.loads(data)
-        self.assertIsInstance(data, dict)
-        return data
-        
     def get_beacon(self, **kwargs):
         """ helpful wrapper for querying beacon"""
         # Use defaults if not provided
@@ -52,7 +45,7 @@ class TestRoutes(unittest.TestCase):
 
         self.assertEqual(r.mimetype, "application/json")
         self.assertEqual(r.status_code, 200)
-        return self.parse_jsonp(r.data)
+        return json.loads(r.data)
 
     def test_do_not_track(self):
         # Should respect Do Not Track header
