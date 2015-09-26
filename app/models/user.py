@@ -25,6 +25,20 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, default=DT.now(), onupdate=DT.now())
     last_login = db.Column(db.DateTime)
 
+    def to_dict(self):
+        return {
+            'type':        "user",
+            'id':          self.id,
+            'name':        self.name,
+            'email':       self.email,
+            'password':    self.password,
+            'enabled':     self.enabled,
+            'admin':       self.admin,
+            'created_at':  self.created_at,
+            'updated_at':  self.updated_at,
+            'last_login':  self.last_login,
+        }
+
     def __repr__(self):
         if self.last_login:
             return 'User[%r] %r, %r, %r, %r, %r, %r, %r' % \
