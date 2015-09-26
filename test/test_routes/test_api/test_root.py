@@ -20,3 +20,10 @@ class TestAPIRootRoutes(unittest.TestCase):
     def test_api_root_1(self):
         r = self.app.get('/api/1/')
         self.assertEqual(401, r.status_code)
+
+    def test_jsonp(self):
+        r = self.app.get("/api/?callback=foo")
+        self.assertTrue(r.data.startswith("foo("))
+        self.assertTrue(r.data.endswith(");"))
+        self.assertEqual(200, r.status_code)
+        self.assertEqual(r.mimetype, "application/javascript")
