@@ -40,8 +40,6 @@ class User(db.Model):
         user = cls.query.filter_by(email=email).first()
         if user and hasher.verify(password, user.password):
             return user
-        else:
-            return None
 
     def to_dict(self):
         return {
