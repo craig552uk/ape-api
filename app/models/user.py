@@ -19,6 +19,7 @@ class Password(db.TypeDecorator):
     impl = db.String(40)
 
     def process_bind_param(self, value, dialect):
+        # TODO validate pasword against rules
         return hasher.encrypt(value)
 
 
@@ -38,7 +39,7 @@ class User(db.Model):
     @classmethod
     def authenticate(cls, email, password):
         user = cls.query.filter_by(email=email).first()
-        if user and hasher.verify(password, user.password):
+        if user and user.enabled and hasher.verify(password, user.password):
             user.last_login = DT.now()
             db.session.add(user)
             db.session.commit()
