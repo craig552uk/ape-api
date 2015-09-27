@@ -86,3 +86,4 @@ class TestModelUser(unittest.TestCase):
         self.assertIsNone(User.authenticate(email, "bar"))
         self.assertIsNone(User.authenticate("foo", password))
         self.assertEqual(user, User.authenticate(email, password))
+        self.assertIsNotNone(user.last_login)

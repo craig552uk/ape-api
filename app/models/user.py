@@ -39,6 +39,10 @@ class User(db.Model):
     def authenticate(cls, email, password):
         user = cls.query.filter_by(email=email).first()
         if user and hasher.verify(password, user.password):
+            user.last_login = DT.now()
+            db.session.add(user)
+            db.session.commit()
+            db.session.refresh(user)
             return user
 
     def to_dict(self):
