@@ -29,7 +29,7 @@ class TestModelUser(unittest.TestCase):
         user = User.query.filter_by(name='Foo').first()
         self.assertEqual(user.name, 'Foo')
         self.assertEqual(user.email, 'a@b.com')
-        self.assertEqual(user.password, 'passw0rd')
+        self.assertIsNotNone(user.password)
         self.assertTrue(user.enabled)
         self.assertFalse(user.admin)
         
@@ -67,9 +67,22 @@ class TestModelUser(unittest.TestCase):
         self.assertEqual(d.get('id'), user.id)
         self.assertEqual(d.get('name'), user.name)
         self.assertEqual(d.get('email'), user.email)
-        self.assertEqual(d.get('password'), user.password)
         self.assertEqual(d.get('enabled'), user.enabled)
         self.assertEqual(d.get('admin'), user.admin)
         self.assertEqual(d.get('created_at'), user.created_at)
         self.assertEqual(d.get('updated_at'), user.updated_at)
         self.assertEqual(d.get('last_login'), user.last_login)
+        self.assertIsNotNone(d.get('password'))
+
+    def test_user_authenticate(self):
+        # Create user
+        email    = "foo@bar.com"
+        password = "passw0rd"
+        user     = User(email=email, password=password)
+        db.session.add(user)
+        db.session.commit()
+
+        self.assertIsNone(User.authenticate("foo", "bar"))
+        self.assertIsNone(User.authenticate(email, "bar"))
+        self.assertIsNone(User.authenticate("foo", password))
+        self.assertEqual(user, User.authenticate(email, password))

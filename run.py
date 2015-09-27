@@ -49,7 +49,7 @@ def db_seed():
                 placeholder.components.append(Component(name=name))
 
     for _ in range(0,10):
-        user = User(name=fake.name(), email=fake.email(), admin=random.choice([True, False]))
+        user = User(name=fake.name(), email=fake.email(), password=fake.password(), admin=random.choice([True, False]))
         user.accounts.append(random.choice(accounts))
         db.session.add(user)
 
