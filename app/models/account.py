@@ -52,6 +52,7 @@ class Account(db.Model):
             'enabled'    : self.enabled,
             'created_at' : self.created_at,
             'updated_at' : self.updated_at,
+            'user_ids'   : [u.id for u in self.users]
         }
 
     def __repr__(self):

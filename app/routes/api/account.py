@@ -27,6 +27,10 @@ def account_add():
     if not name: raise BadRequest("Name required")
 
     account = Account(name=name, sites=sites, enabled=enabled)
+    
+    if 'user_ids' in data.keys():
+        account.users = User.query.filter(User.id.in_(data['user_ids'])).all()    
+
     db.session.add(account)
     db.session.commit()
     db.session.refresh(account)
@@ -47,10 +51,13 @@ def account_update(account_id):
     account = Account.query.filter_by(id=account_id).first()
     if not account: raise NotFound("No account exists with the id '%s'" % account_id)
 
-    data            = request.get_json() or dict()
-    account.name    = data.get('name', str())
-    account.sites   = data.get('sites', list())
-    account.enabled = data.get('enabled', True)
+    data = request.get_json() or dict()
+    if 'name'    in data.keys(): account.name    = data['name']
+    if 'sites'   in data.keys(): account.sites   = data['sites']
+    if 'enabled' in data.keys(): account.enabled = data['enabled']
+
+    if 'user_ids' in data.keys():
+        account.users = User.query.filter(User.id.in_(data['user_ids'])).all()
 
     db.session.add(account)
     db.session.commit()
